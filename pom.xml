@@ -22,7 +22,7 @@
 		
 		<!-- Arquillian -->
 		<version.org.jboss.arquillian>1.1.11.Final</version.org.jboss.arquillian>
-		<version.org.wildfly.arquillian>1.1.0.Final</version.org.wildfly.arquillian>
+		<version.org.wildfly.arquillian>2.0.0.Final</version.org.wildfly.arquillian>
 		
 		<version.junit>4.12</version.junit>
 	</properties>
@@ -30,13 +30,13 @@
 	<dependencyManagement>
 		<dependencies>
 			<!-- WildFly -->
-			<dependency>
-				<groupId>org.wildfly.bom</groupId>
-				<artifactId>wildfly-javaee7</artifactId>
-				<version>${version.org.jboss.as}</version>
-				<scope>import</scope>
-				<type>pom</type>
-			</dependency>
+<!-- 			<dependency> -->
+<!-- 				<groupId>org.wildfly.bom</groupId> -->
+<!-- 				<artifactId>wildfly-javaee7</artifactId> -->
+<!-- 				<version>${version.org.jboss.as}</version> -->
+<!-- 				<scope>import</scope> -->
+<!-- 				<type>pom</type> -->
+<!-- 			</dependency> -->
 			
 			<!-- Arquillian -->
 			<dependency>
@@ -45,6 +45,15 @@
 				<version>${version.org.jboss.arquillian}</version>
 				<type>pom</type>
 				<scope>import</scope>
+			</dependency>
+			
+			<!-- EJB Client -->
+			<dependency>
+				<groupId>org.wildfly</groupId>
+				<artifactId>wildfly-ejb-client-bom</artifactId>
+				<version>${version.org.jboss.as}</version>
+				<scope>import</scope>
+				<type>pom</type>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
@@ -61,6 +70,19 @@
 			<artifactId>javaee-api</artifactId>
 			<version>${version.javaee-api}</version>
 			<scope>provided</scope>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-log4j12</artifactId>
+			<version>1.7.21</version>
+			<scope>runtime</scope>
+		</dependency>
+	
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<scope>runtime</scope>
 		</dependency>
 		
 <!-- 		<dependency> -->
@@ -199,10 +221,20 @@
 			<version>${version.junit}</version>
 			<scope>test</scope>
 		</dependency>
+		
 		<dependency>
 			<groupId>org.jboss.arquillian.junit</groupId>
 			<artifactId>arquillian-junit-container</artifactId>
 			<scope>test</scope>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.wildfly</groupId>
+			<artifactId>wildfly-ejb-client-bom</artifactId>
+			<type>pom</type>
+			<!-- Needed in ServiceLocatorBuilder to avoid use of properties file - verify that this works like this... -->
+			<scope>runtime</scope>
+			<!-- TODO Provided scope or optional? -->
 		</dependency>
 	</dependencies>
 	
@@ -216,7 +248,6 @@
 				<dependency>
 					<groupId>org.wildfly.arquillian</groupId>
 					<artifactId>wildfly-arquillian-container-managed</artifactId>
-					<version>${version.org.wildfly.arquillian}</version>
 					<scope>test</scope>
 				</dependency>
 			</dependencies>
@@ -251,4 +282,5 @@
             </build>
 		</profile>
 	</profiles>
+	<groupId>ch.inftec.ju</groupId>
 </project>

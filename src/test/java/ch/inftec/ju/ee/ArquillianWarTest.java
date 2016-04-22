@@ -21,6 +21,8 @@ public class ArquillianWarTest {
 		WebArchive war = ShrinkWrap.create(WebArchive.class, "test.war");
 
 		war.addClass(AbstractTestBean.class);
+
+		// Enable CDI support
 		war.addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml");
 
 		return war;
