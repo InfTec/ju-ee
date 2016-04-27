@@ -20,8 +20,15 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import ch.inftec.ju.ee.cdi.ScopeControl;
 import ch.inftec.ju.ee.client.ModifierTestProducer.TestObject;
+import ch.inftec.ju.util.AssertUtil;
+import ch.inftec.ju.util.JuCollectionUtils;
+import ch.inftec.ju.util.JuRuntimeException;
 import ch.inftec.ju.util.JuUrl;
+import ch.inftec.ju.util.WeakReferenceIterable;
+import ch.inftec.ju.util.comparison.EqualityTester;
+import ch.inftec.ju.util.helper.FindHelper;
 
 /**
  * Run ServiceLocator tests in an embedded Weld container.
@@ -34,11 +41,21 @@ public class ServiceLocatorTest {
 	@Deployment
     public static JavaArchive createDeployment() {
 		// Get a beans.xml with an alternatives declaration for AltAlternative
-		URL beansXml = JuUrl.existingResourceRelativeTo("beans.xml", ServiceLocatorTest.class);
+		URL beansXml = JuUrl.existingResourceRelativeToAndPrefixed("beans.xml", ServiceLocatorTest.class);
 
-        return ShrinkWrap.create(JavaArchive.class)
-            .addClass(ModifierTestProducer.class)
-			.addAsManifestResource(beansXml, "beans.xml");
+		return ShrinkWrap.create(JavaArchive.class)
+				.addPackage(ScopeControl.class.getPackage())
+				.addPackage(ServiceLocator.class.getPackage())
+				.addPackage(FindHelper.class.getPackage())
+
+				.addClass(ModifierTestProducer.class)
+				.addClass(JuRuntimeException.class)
+				.addClass(AssertUtil.class)
+				.addClass(JuCollectionUtils.class)
+				.addClass(EqualityTester.class)
+				.addClass(WeakReferenceIterable.class)
+
+				.addAsManifestResource(beansXml, "beans.xml");
     }
 	
 	@Inject

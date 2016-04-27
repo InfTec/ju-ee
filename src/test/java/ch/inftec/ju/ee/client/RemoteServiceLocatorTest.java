@@ -58,7 +58,7 @@ public class RemoteServiceLocatorTest {
 
 		// Define stateless remote bean in ejb-jar.xml
 		war.addAsManifestResource(
-				JuUrl.existingResourceRelativeTo("RemoteServiceLocatorTest_ejb-jar.xml", RemoteServiceLocatorTest.class),
+				JuUrl.existingResourceRelativeToAndPrefixed("ejb-jar.xml", RemoteServiceLocatorTest.class),
 				"ejb-jar.xml");
 
 		return war;

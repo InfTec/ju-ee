@@ -10,13 +10,13 @@
 		<version>3.2</version>
 	</parent>
 
-	<artifactId>ju-util-ee</artifactId>
-	<name>JU Util EE</name>
-	<version>5.0</version>
+	<groupId>ch.inftec.ju</groupId>
+	<artifactId>ju-ee</artifactId>
+	<version>6.0</version>
 
 	<properties>
-		<version.ju-util>5.0-1</version.ju-util>
-		<version.slf4j>1.7.14</version.slf4j>
+		<version.ju-util>6.0-tbd</version.ju-util>
+		<version.slf4j>1.7.21</version.slf4j>
 		<version.javaee-api>7.0</version.javaee-api>
 		<version.org.jboss.as>10.0.0.Final</version.org.jboss.as>
 		
@@ -72,10 +72,17 @@
 			<scope>provided</scope>
 		</dependency>
 		
+		<!-- Need to override managed version (from JBoss BOM) that is only available in JBoss repository -->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>${version.slf4j}</version><!--$NO-MVN-MAN-VER$-->
+		</dependency>
+		
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-log4j12</artifactId>
-			<version>1.7.21</version>
+			<version>${version.slf4j}</version>
 			<scope>runtime</scope>
 		</dependency>
 	
@@ -218,7 +225,6 @@
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>${version.junit}</version>
 			<scope>test</scope>
 		</dependency>
 		
@@ -232,13 +238,22 @@
 			<groupId>org.wildfly</groupId>
 			<artifactId>wildfly-ejb-client-bom</artifactId>
 			<type>pom</type>
-			<!-- Needed in ServiceLocatorBuilder to avoid use of properties file - verify that this works like this... -->
-			<scope>runtime</scope>
-			<!-- TODO Provided scope or optional? -->
+			<!-- 
+				We'll use provided scope for the moment as we have dependencies on the EJB client both in src (remote service locator)
+				and in test.
+				Any project that wants to make use of remove service calls needs to make sure it has the EJB client libraries available.
+			-->
+			<scope>provided</scope>
 		</dependency>
 	</dependencies>
 	
 	<profiles>
+		<profile>
+			<id>ju-workspaceResolution-ju</id>
+			<properties>
+				<version.ju-util>6.0</version.ju-util>
+			</properties>
+		</profile>
 		<profile>
 			<id>ju-wildfly-managed</id>
 			<activation>
@@ -282,5 +297,4 @@
             </build>
 		</profile>
 	</profiles>
-	<groupId>ch.inftec.ju</groupId>
 </project>
