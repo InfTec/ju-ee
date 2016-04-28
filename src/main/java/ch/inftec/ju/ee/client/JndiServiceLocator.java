@@ -8,10 +8,13 @@ package ch.inftec.ju.ee.client;
 public interface JndiServiceLocator {
 	/**
 	 * Looks up the specified JNDI resource by its name
-	 * @param jndiName JNDI name
+	 * 
+	 * @param jndiName
+	 *            JNDI name
 	 * @return Object defined by the JNDI name
-	 * @throws JuRuntimeException if the lookup fails. The exception may contain a NamingException as
-	 * its cause.
+	 * @throws ch.inftec.ju.util.JuRuntimeException
+	 *             if the lookup fails. The exception may contain a NamingException as
+	 *             its cause.
 	 */
 	public <T> T lookup(String jndiName);
 	
@@ -20,10 +23,13 @@ public interface JndiServiceLocator {
 	 * <p>
 	 * Different implementations of JndiServiceLocator may use different ways to evaluate
 	 * a JNDI name from the type if necessary.
-	 * @param clazz Desired type
+	 * 
+	 * @param clazz
+	 *            Desired type
 	 * @return Type instance
-	 * @throws JuRuntimeException if the lookup fails. The exception may contain a NamingException as
-	 * its cause.
+	 * @throws ch.inftec.ju.util.JuRuntimeException
+	 *             if the lookup fails. The exception may contain a NamingException as
+	 *             its cause.
 	 */
 	public <T> T lookup(Class<T> clazz);
 }

@@ -59,8 +59,9 @@ public class DynamicCdiLoader {
 	}
 	
 	/**
-	 * A Producer of DynamicCdiLoader will need to get Instance<DynamicCdi> injected
+	 * A Producer of DynamicCdiLoader will need to get Instance&lt;DynamicCdi&gt; injected
 	 * by Weld using the annotations <code>@Inject @Any</code>
+	 * 
 	 * @param dynamicCdis
 	 */
 	public DynamicCdiLoader(Instance<DynamicCdi> dynamicCdis) {
@@ -72,9 +73,12 @@ public class DynamicCdiLoader {
 	 * <p>
 	 * This method is mainly public so we can test it from the esw-test1 package. Normally, it
 	 * will not be called from outside.
-	 * @param clazz Clazz to get implementation for (i.e. CDI instance with the appropriate SimulatorTag)
+	 * 
+	 * @param clazz
+	 *            Clazz to get implementation for (i.e. CDI instance with the appropriate SimulatorTag)
 	 * @return Instance of clazz
-	 * @throws ServiceDbRuntimeException If no implementation can be found
+	 * @throws JuRuntimeException
+	 *             If no implementation can be found
 	 */
 	public <T> T getImplementation(Class<T> clazz) {
 		AssertUtil.assertNotNull("Dynamic CDIs must be set or injected", this.dynamicCdis);
