@@ -27,6 +27,15 @@
 		</developer>
 	</developers>
 	
+	<!-- TODO: Might be removed once we have added this to the parent (and don't intend to change the parent unless it's already in central -->
+	<repositories>
+		<repository>
+			<id>inftec-nightly</id>
+			<name>Inftec Nightly Release Repository</name>
+			<url>https://mvn.inftec.ch/nexus/content/repositories/inftec-nightly</url>
+		</repository>
+	</repositories>
+	
 	<properties>
 		<version.ju-util>6.0-S-9</version.ju-util>
 		<version.slf4j>1.7.21</version.slf4j>
