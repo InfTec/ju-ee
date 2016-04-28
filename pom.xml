@@ -37,7 +37,7 @@
 	</repositories>
 	
 	<properties>
-		<version.ju-util>6.0-S-9</version.ju-util>
+		<version.ju-util>6.0-2</version.ju-util>
 		<version.slf4j>1.7.21</version.slf4j>
 		<version.javaee-api>7.0</version.javaee-api>
 		<version.org.jboss.as>10.0.0.Final</version.org.jboss.as>
