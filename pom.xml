@@ -14,6 +14,19 @@
 	<artifactId>ju-ee</artifactId>
 	<version>6.0</version>
 
+	<scm>
+		<url>https://github.com/InfTec/ju-ee</url>
+		<connection>scm:git:git@github.com:InfTec/ju-ee.git</connection>
+	</scm>
+	
+	<developers>
+		<developer>
+			<id>mme</id>
+			<name>Martin Meyer</name>
+			<email>martin.meyer@inftec.ch</email>
+		</developer>
+	</developers>
+	
 	<properties>
 		<version.ju-util>6.0-S-9</version.ju-util>
 		<version.slf4j>1.7.21</version.slf4j>
