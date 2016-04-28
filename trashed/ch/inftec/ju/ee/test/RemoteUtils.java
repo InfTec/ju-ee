@@ -8,7 +8,7 @@ import org.junit.ComparisonFailure;
 
 /**
  * Remote call related utility functions.
- * @author Martin Meyer <martin.meyer@inftec.ch>
+ * @author martin.meyer@inftec.ch
  *
  */
 public class RemoteUtils {

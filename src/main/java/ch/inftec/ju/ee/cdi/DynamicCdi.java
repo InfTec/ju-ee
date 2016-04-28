@@ -8,7 +8,7 @@ package ch.inftec.ju.ee.cdi;
  * The alternative would be to use some kind of classpath scanning tooling, but this way,
  * we can rely entirely on CDI to get the appropriate classes.
  * 
- * @author Martin Meyer <martin.meyer@inftec.ch>
+ * @author martin.meyer@inftec.ch
  *
  */
 public interface DynamicCdi {

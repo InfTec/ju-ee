@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory;
 /**
  * CDI extension to register ContainerTestScope.
  * 
- * @author Martin Meyer <martin.meyer@inftec.ch>
+ * @author martin.meyer@inftec.ch
  * 
  */
 public class ContainerTestScopeExtension implements Extension, Serializable {

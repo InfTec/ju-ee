@@ -34,7 +34,7 @@ import ch.inftec.ju.util.ReflectUtils;
  * value or by specifying the default tag using the property <code>ju.ee.cdi.defaultDynamicCdiTag</code>
  * <p>
  * If no tag is specified, the default value '-' will be used which stands for the default implementation.
- * @author Martin Meyer <martin.meyer@inftec.ch>
+ * @author martin.meyer@inftec.ch
  * <p>
  * <b>Important:</b>Every dynamic implementation has to extend the interface DynamicCdi AND to specify a tag
  * DynamicCdiTag. We need the tag to avoid duplicate declaration issues with weld. When we use a producer to
@@ -172,7 +172,7 @@ public class DynamicCdiLoader {
 	
 	/**
 	 * Helper interface to postpone object creation until we actually need one.
-	 * @author Martin Meyer <martin.meyer@inftec.ch>
+	 * @author martin.meyer@inftec.ch
 	 *
 	 * @param <T>
 	 */

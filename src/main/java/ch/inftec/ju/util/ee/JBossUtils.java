@@ -7,7 +7,7 @@ import ch.inftec.ju.util.jmx.MBeanUtils;
 
 /**
  * JBoss specific utility functions.
- * @author Martin Meyer <martin.meyer@inftec.ch>
+ * @author martin.meyer@inftec.ch
  *
  */
 public class JBossUtils {

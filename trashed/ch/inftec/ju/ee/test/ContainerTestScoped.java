@@ -9,7 +9,7 @@ import javax.enterprise.context.NormalScope;
 /**
  * Custom scope that complies to the lifecycle of a container test (or more precise: test method).
  * 
- * @author Martin Meyer <martin.meyer@inftec.ch>
+ * @author martin.meyer@inftec.ch
  * 
  */
 @Retention(java.lang.annotation.RetentionPolicy.RUNTIME)

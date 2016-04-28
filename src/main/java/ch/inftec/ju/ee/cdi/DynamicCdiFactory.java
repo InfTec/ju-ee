@@ -13,7 +13,7 @@ package ch.inftec.ju.ee.cdi;
  * <p>
  * Note that DynamicCdiFactory extends DynamicCdi so we can use a single CDI lookup to find all classes
  * related to dynamic CDI lookup.
- * @author Martin Meyer <martin.meyer@inftec.ch>
+ * @author martin.meyer@inftec.ch
  *
  */
 public interface DynamicCdiFactory extends DynamicCdi {

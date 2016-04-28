@@ -13,7 +13,7 @@ import ch.inftec.ju.util.JuRuntimeException;
  * <p>
  * This class supports all the JU container and DB test annotations like @DataSet, @DataSetExport and
  * the like.
- * @author Martin Meyer <martin.meyer@inftec.ch>
+ * @author martin.meyer@inftec.ch
  *
  */
 public class RemoteContainerTest {

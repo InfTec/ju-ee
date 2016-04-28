@@ -83,7 +83,7 @@ public interface CdiServiceLocator {
 	/**
 	 * Helper to construct complex CDI queries
 	 * 
-	 * @author Martin Meyer <martin.meyer@inftec.ch>
+	 * @author martin.meyer@inftec.ch
 	 *
 	 * @param <T> Desired type to get from CDI
 	 */

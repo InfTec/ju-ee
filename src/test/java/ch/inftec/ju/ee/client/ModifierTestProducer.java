@@ -8,14 +8,14 @@ import ch.inftec.ju.ee.cdi.ScopeControl;
 /**
  * Producer used for CDI modifier testing.
  * 
- * @author Martin Meyer <martin.meyer@inftec.ch>
+ * @author martin.meyer@inftec.ch
  *
  */
 public class ModifierTestProducer {
 	/**
 	 * Test Object that can be used to verify we got the right object.
 	 * 
-	 * @author Martin Meyer <martin.meyer@inftec.ch>
+	 * @author martin.meyer@inftec.ch
 	 *
 	 */
 	public interface TestObject {

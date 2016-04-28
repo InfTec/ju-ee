@@ -9,7 +9,7 @@ import ch.inftec.ju.ee.client.ServiceLocatorBuilder;
  * Provides cached instances of RemoteServiceLocator and TestRunnerFacade. All classes requiring access to these instances
  * should use the cached instances to optimize resource usage.
  * 
- * @author Martin Meyer <martin.meyer@inftec.ch>
+ * @author martin.meyer@inftec.ch
  *
  */
 public class TestRunnerUtils {

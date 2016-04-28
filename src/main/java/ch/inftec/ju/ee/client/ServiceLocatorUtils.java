@@ -16,7 +16,7 @@ import ch.inftec.ju.util.JuRuntimeException;
 
 /**
  * Utility class containing shared ServiceLocator related funcationality. 
- * @author Martin Meyer <martin.meyer@inftec.ch>
+ * @author martin.meyer@inftec.ch
  *
  */
 class ServiceLocatorUtils {

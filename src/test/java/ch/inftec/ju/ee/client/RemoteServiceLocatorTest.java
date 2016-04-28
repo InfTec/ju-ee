@@ -37,7 +37,7 @@ import ch.inftec.ju.util.JuUrl;
  * Tests EJB remote invocation with Wildfly 10.
  * See https://github.com/wildfly/quickstart/tree/10.x/ejb-remote for an example.
  * 
- * @author Martin Meyer <martin.meyer@inftec.ch>
+ * @author martin.meyer@inftec.ch
  *
  */
 @RunWith(Arquillian.class)

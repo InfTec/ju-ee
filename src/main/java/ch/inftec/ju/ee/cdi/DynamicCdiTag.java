@@ -21,7 +21,7 @@ import java.lang.annotation.Target;
  * <p>
  * Note that in order to be found, any implementation tagged with DynamicCdiTag needs to implement
  * the tag interface {@link DynamicCdi} as well.
- * @author Martin Meyer <martin.meyer@inftec.ch>
+ * @author martin.meyer@inftec.ch
  *
  */
 @Target({TYPE, METHOD, FIELD, PARAMETER})

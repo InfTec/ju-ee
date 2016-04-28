@@ -130,7 +130,7 @@ public interface TestRunnerFacade {
 	/**
 	 * Interface for classes that are transaction aware, i.e. that are prepared to work
 	 * with a TxHandler
-	 * @author Martin Meyer <martin.meyer@inftec.ch>
+	 * @author martin.meyer@inftec.ch
 	 *
 	 */
 	public interface TransactionAware {

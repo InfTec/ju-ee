@@ -24,7 +24,7 @@ import ch.inftec.ju.util.JuRuntimeException;
  * <p>
  * If not running in a ContainerTest scope, the context will
  * 
- * @author Martin Meyer <martin.meyer@inftec.ch>
+ * @author martin.meyer@inftec.ch
  * 
  */
 public class ContainerTestContext implements Context {

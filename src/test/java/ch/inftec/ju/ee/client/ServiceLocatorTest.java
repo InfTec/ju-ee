@@ -33,7 +33,7 @@ import ch.inftec.ju.util.helper.FindHelper;
 /**
  * Run ServiceLocator tests in an embedded Weld container.
  * 
- * @author Martin Meyer <martin.meyer@inftec.ch>
+ * @author martin.meyer@inftec.ch
  *
  */
 @RunWith(Arquillian.class)
