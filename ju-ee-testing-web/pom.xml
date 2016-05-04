@@ -1,0 +1,258 @@
+<?xml version="1.0"?>
+<project
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>ch.inftec.ju</groupId>
+		<artifactId>ju-ee-parent</artifactId>
+		<version>6.0</version>
+	</parent>
+
+	<artifactId>ju-ee-testing-web</artifactId>
+
+	<properties>
+		<version.slf4j>1.7.14</version.slf4j>
+		<version.javaee-api>7.0</version.javaee-api>
+		<version.org.jboss.as>10.0.0.Final</version.org.jboss.as>
+		
+		<!-- Arquillian -->
+		<version.org.jboss.arquillian>1.1.11.Final</version.org.jboss.arquillian>
+		<version.org.wildfly.arquillian>2.0.0.Final</version.org.wildfly.arquillian>
+		
+		<version.junit>4.12</version.junit>
+	</properties>
+	
+	<repositories>
+		<repository>
+			<id>redhat</id>
+			<url>https://maven.repository.redhat.com/nexus/content/groups/public/</url>
+		</repository>
+	</repositories>
+	
+	<dependencyManagement>
+		<dependencies>
+			<!-- WildFly -->
+<!-- 			<dependency> -->
+<!-- 				<groupId>org.wildfly.bom</groupId> -->
+<!-- 				<artifactId>wildfly-javaee7</artifactId> -->
+<!-- 				<version>${version.org.jboss.as}</version> -->
+<!-- 				<scope>import</scope> -->
+<!-- 				<type>pom</type> -->
+<!-- 			</dependency> -->
+			
+			<!-- Arquillian -->
+			<dependency>
+				<groupId>org.jboss.arquillian</groupId>
+				<artifactId>arquillian-bom</artifactId>
+				<version>${version.org.jboss.arquillian}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+	
+	<dependencies>
+		<dependency>
+			<groupId>ch.inftec.ju</groupId>
+			<artifactId>ju-ee-testing</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>javax</groupId>
+			<artifactId>javaee-api</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-log4j12</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.jboss.logging</groupId>
+			<artifactId>jboss-logging</artifactId>
+			<scope>provided</scope>
+		</dependency>
+	
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+		
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>compile</scope>
+		</dependency>
+		
+<!-- 		<dependency> -->
+<!-- 			<groupId>${project.groupId}</groupId> -->
+<!-- 			<artifactId>ju-testing</artifactId> -->
+<!-- 		</dependency> -->
+	
+		<!-- Needed by Log4jAppenderModel, imported by slf4j with scope runtime, 
+			but we need it to build the project. We don't want to include it as a dependency 
+			though as not all project using JU will use the log4j appender -->
+	
+<!-- 		<dependency> -->
+<!-- 			<groupId>log4j</groupId> -->
+<!-- 			<artifactId>log4j</artifactId> -->
+<!-- 			<optional>true</optional> -->
+<!-- 		</dependency> -->
+	
+<!-- 		<dependency> -->
+<!-- 			<groupId>org.jboss</groupId> -->
+<!-- 			<artifactId>jboss-ejb-client</artifactId> -->
+<!-- 			<optional>true</optional> Must be included if used as pure client -->
+<!-- 		</dependency> -->
+	
+<!-- 		<dependency> -->
+<!-- 			<groupId>org.jboss.remoting3</groupId> -->
+<!-- 			<artifactId>jboss-remoting</artifactId> -->
+<!-- 			<scope>runtime</scope> -->
+<!-- 		</dependency> -->
+	
+		<!-- Import the transaction spec API, we use provided scope as this has
+		     to be provided by a container anyway -->
+<!-- 		<dependency> -->
+<!-- 			<groupId>org.jboss.spec.javax.transaction</groupId> -->
+<!-- 			<artifactId>jboss-transaction-api_1.1_spec</artifactId> -->
+<!-- 			<scope>provided</scope> -->
+<!-- 		</dependency> -->
+	
+		<!-- Import the EJB 3.1 API. We'll use provided as this has to be provided 
+			by a container anyway -->
+<!-- 		<dependency> -->
+<!-- 			<groupId>org.jboss.spec.javax.ejb</groupId> -->
+<!-- 			<artifactId>jboss-ejb-api_3.1_spec</artifactId> -->
+<!-- 			<scope>provided</scope> -->
+<!-- 		</dependency> -->
+	
+		<!-- Import the CDI API, we use provided scope as the API is included in 
+			JBoss AS 7 -->
+<!-- 		<dependency> -->
+<!-- 			<groupId>javax.enterprise</groupId> -->
+<!-- 			<artifactId>cdi-api</artifactId> -->
+<!-- 			<scope>provided</scope> -->
+<!-- 		</dependency> -->
+		<!-- Import the JPA API, we use provided scope as the API is included in 
+			JBoss AS 7 -->
+<!-- 		<dependency> -->
+<!-- 			<groupId>org.hibernate.javax.persistence</groupId> -->
+<!-- 			<artifactId>hibernate-jpa-2.0-api</artifactId> -->
+<!-- 			<scope>provided</scope> -->
+<!-- 		</dependency> -->
+	
+		<!-- We depend on the EJB remote business interfaces of this application -->
+		<!-- <dependency> -->
+		<!-- <groupId>org.jboss.quickstarts.eap</groupId> -->
+		<!-- <artifactId>jboss-ejb-remote-server-side</artifactId> -->
+		<!-- <type>ejb-client</type> -->
+		<!-- <version>${project.version}</version> -->
+		<!-- </dependency> -->
+       
+<!--        <dependency> -->
+<!--            <groupId>org.jboss.xnio</groupId> -->
+<!--            <artifactId>xnio-api</artifactId> -->
+<!--            <scope>runtime</scope> -->
+<!--        </dependency> -->
+
+		<!-- client communications with the server use XNIO -->
+<!--         <dependency> -->
+<!--             <groupId>org.jboss.xnio</groupId> -->
+<!--             <artifactId>xnio-nio</artifactId> -->
+<!--             <scope>runtime</scope> -->
+<!--         </dependency> -->
+
+      <!-- The client needs JBoss remoting to access the server -->
+<!--        <dependency> -->
+<!--             <groupId>org.jboss.remoting3</groupId> -->
+<!--             <artifactId>jboss-remoting</artifactId> -->
+<!--             <scope>runtime</scope> -->
+<!--         </dependency> -->
+        
+<!--         <version.org.jboss.remote-naming>1.0.5.Final</version.org.jboss.remote-naming> -->
+<!--         <dependency> -->
+<!--             <groupId>org.jboss</groupId> -->
+<!--             <artifactId>jboss-remote-naming</artifactId> -->
+<!--             <scope>runtime</scope> -->
+<!--         </dependency> -->
+
+        <!-- Remote EJB accesses can be secured -->
+<!--         <dependency> -->
+<!--             <groupId>org.jboss.sasl</groupId> -->
+<!--             <artifactId>jboss-sasl</artifactId> -->
+<!--             <scope>runtime</scope> -->
+<!--         </dependency> -->
+
+        <!-- data serialization for invoking remote EJBs -->
+<!--         <dependency> -->
+<!--             <groupId>org.jboss.marshalling</groupId> -->
+<!--             <artifactId>jboss-marshalling-river</artifactId> -->
+<!--             <scope>runtime</scope> -->
+<!--         </dependency> -->
+		
+		<!-- Arquillian with Weld-->
+<!-- 		<dependency> -->
+<!-- 	        <groupId>org.jboss.spec</groupId> -->
+<!-- 	        <artifactId>jboss-javaee-6.0</artifactId> -->
+<!-- 	        <type>pom</type> -->
+<!-- 	    </dependency> -->
+<!-- 		<dependency> -->
+<!-- 		    <groupId>org.jboss.arquillian.junit</groupId> -->
+<!-- 		    <artifactId>arquillian-junit-container</artifactId> -->
+<!-- 		    <scope>test</scope> -->
+<!-- 		</dependency> -->
+<!-- 		<dependency> -->
+<!-- 		    <groupId>org.jboss.arquillian.container</groupId> -->
+<!-- 		    <artifactId>arquillian-weld-ee-embedded-1.1</artifactId> -->
+<!-- 		    <scope>test</scope> -->
+<!-- 		</dependency> -->
+<!-- 		<dependency> -->
+<!-- 		    <groupId>org.jboss.weld</groupId> -->
+<!-- 		    <artifactId>weld-core</artifactId> -->
+<!-- 		    <scope>test</scope> -->
+<!-- 		</dependency> -->
+
+		<!-- Test dependencies -->
+<!-- 		<dependency> -->
+<!-- 			<groupId>junit</groupId> -->
+<!-- 			<artifactId>junit</artifactId> -->
+<!-- 			<scope>test</scope> -->
+<!-- 		</dependency> -->
+		
+		<dependency>
+			<groupId>org.jboss.arquillian.junit</groupId>
+			<artifactId>arquillian-junit-container</artifactId>
+			<scope>test</scope>
+		</dependency>
+		
+		<dependency>
+	        <groupId>org.seleniumhq.selenium</groupId>
+	        <artifactId>selenium-java</artifactId>
+	    </dependency>
+	    <dependency>
+	        <groupId>org.seleniumhq.selenium</groupId>
+	        <artifactId>htmlunit-driver</artifactId>
+	        <optional>true</optional>
+	    </dependency>  
+	    <dependency>
+	        <groupId>com.github.detro</groupId>
+	        <artifactId>phantomjsdriver</artifactId>
+			<optional>true</optional>
+	    </dependency>  
+		
+		<dependency>
+			<groupId>org.wildfly</groupId>
+			<artifactId>wildfly-ejb-client-bom</artifactId>
+			<type>pom</type>
+			<!-- Needed in ServiceLocatorBuilder to avoid use of properties file - verify that this works like this... -->
+			<scope>runtime</scope>
+			<!-- TODO Provided scope or optional? -->
+		</dependency>
+	</dependencies>
+</project>
