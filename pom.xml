@@ -11,12 +11,13 @@
 	</parent>
 
 	<groupId>ch.inftec.ju</groupId>
-	<artifactId>ju-ee</artifactId>
+	<artifactId>ju-ee-parent</artifactId>
+	<packaging>pom</packaging>
 	<version>6.0</version>
 
 	<scm>
-		<url>https://github.com/InfTec/ju-ee</url>
-		<connection>scm:git:git@github.com:InfTec/ju-ee.git</connection>
+		<url>https://github.com/InfTec/ju-ee-parent</url>
+		<connection>scm:git:git@github.com:InfTec/ju-ee-parent.git</connection>
 	</scm>
 	
 	<developers>
@@ -36,17 +37,26 @@
 		</repository>
 	</repositories>
 	
+	<modules>
+		<module>ju-ee</module>
+		<module>ju-ee-testing</module>
+	</modules>
+	
 	<properties>
 		<version.ju-util>6.0-2</version.ju-util>
+		<version.ju-db-testing>6.0-S-1</version.ju-db-testing>
 		<version.slf4j>1.7.21</version.slf4j>
 		<version.javaee-api>7.0</version.javaee-api>
 		<version.org.jboss.as>10.0.0.Final</version.org.jboss.as>
+		<version.hibernate.jpa-2.0-api>1.0.1.Final</version.hibernate.jpa-2.0-api>
+		<version.junit>4.12</version.junit>
+		<version.liquibase>3.1.1</version.liquibase>
+		<version.spring>4.2.5.RELEASE</version.spring>
+		<version.spring.spring-data-jpa>1.10.1.RELEASE</version.spring.spring-data-jpa>
 		
 		<!-- Arquillian -->
 		<version.org.jboss.arquillian>1.1.11.Final</version.org.jboss.arquillian>
 		<version.org.wildfly.arquillian>2.0.0.Final</version.org.wildfly.arquillian>
-		
-		<version.junit>4.12</version.junit>
 	</properties>
 	
 	<dependencyManagement>
@@ -77,203 +87,101 @@
 				<scope>import</scope>
 				<type>pom</type>
 			</dependency>
+			
+			<dependency>
+				<groupId>javax</groupId>
+				<artifactId>javaee-api</artifactId>
+				<version>${version.javaee-api}</version>
+				<scope>provided</scope>
+			</dependency>
+			
+			<dependency>
+				<groupId>${project.groupId}</groupId>
+				<artifactId>ju-ee</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+		
+			<dependency>
+				<groupId>${project.groupId}</groupId>
+				<artifactId>ju-ee-testing</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			
+			<dependency>
+	        	<groupId>${project.groupId}</groupId>
+	        	<artifactId>ju-ee-ear-jar</artifactId>
+	        	<version>${project.version}</version>
+			</dependency>
+			
+			<dependency>
+	        	<groupId>${project.groupId}</groupId>
+	        	<artifactId>ju-ee-ear-jar</artifactId>
+	        	<version>${project.version}</version>
+	        	<type>test-jar</type>
+			</dependency>
+			
+			<dependency>
+				<groupId>ch.inftec.ju</groupId>
+				<artifactId>ju-util</artifactId>
+				<version>${version.ju-util}</version>
+			</dependency>
+			
+			<dependency>
+				<groupId>ch.inftec.ju</groupId>
+				<artifactId>ju-db-testing</artifactId>
+				<version>${version.ju-db-testing}</version>
+			</dependency>
+			
+			<!-- Need to override managed version (from JBoss BOM) that is only available in JBoss repository -->
+			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>slf4j-api</artifactId>
+				<version>${version.slf4j}</version><!--$NO-MVN-MAN-VER$-->
+			</dependency>
+			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>jcl-over-slf4j</artifactId>
+				<version>${version.slf4j}</version><!--$NO-MVN-MAN-VER$-->
+			</dependency>
+			
+			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>slf4j-log4j12</artifactId>
+				<version>${version.slf4j}</version>
+			</dependency>
+			
+			<dependency>
+				<groupId>org.hibernate.javax.persistence</groupId>
+				<artifactId>hibernate-jpa-2.0-api</artifactId>
+				<version>${version.hibernate.jpa-2.0-api}</version>
+			</dependency>
+			
+			<dependency>
+			    <groupId>org.liquibase</groupId>
+			    <artifactId>liquibase-core</artifactId>
+			    <version>${version.liquibase}</version>
+			</dependency>
+			
+			<dependency>
+				<groupId>org.springframework.data</groupId>
+				<artifactId>spring-data-jpa</artifactId>
+				<version>${version.spring.spring-data-jpa}</version>
+			</dependency>
+			
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-context</artifactId>
+				<version>${version.spring}</version>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
-	
-	<dependencies>
-		<dependency>
-			<groupId>ch.inftec.ju</groupId>
-			<artifactId>ju-util</artifactId>
-			<version>${version.ju-util}</version>
-		</dependency>
-		
-		<dependency>
-			<groupId>javax</groupId>
-			<artifactId>javaee-api</artifactId>
-			<version>${version.javaee-api}</version>
-			<scope>provided</scope>
-		</dependency>
-		
-		<!-- Need to override managed version (from JBoss BOM) that is only available in JBoss repository -->
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-api</artifactId>
-			<version>${version.slf4j}</version><!--$NO-MVN-MAN-VER$-->
-		</dependency>
-		
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-log4j12</artifactId>
-			<version>${version.slf4j}</version>
-			<scope>runtime</scope>
-		</dependency>
-	
-		<dependency>
-			<groupId>log4j</groupId>
-			<artifactId>log4j</artifactId>
-			<scope>runtime</scope>
-		</dependency>
-		
-<!-- 		<dependency> -->
-<!-- 			<groupId>${project.groupId}</groupId> -->
-<!-- 			<artifactId>ju-testing</artifactId> -->
-<!-- 		</dependency> -->
-	
-		<!-- Needed by Log4jAppenderModel, imported by slf4j with scope runtime, 
-			but we need it to build the project. We don't want to include it as a dependency 
-			though as not all project using JU will use the log4j appender -->
-	
-<!-- 		<dependency> -->
-<!-- 			<groupId>log4j</groupId> -->
-<!-- 			<artifactId>log4j</artifactId> -->
-<!-- 			<optional>true</optional> -->
-<!-- 		</dependency> -->
-	
-<!-- 		<dependency> -->
-<!-- 			<groupId>org.jboss</groupId> -->
-<!-- 			<artifactId>jboss-ejb-client</artifactId> -->
-<!-- 			<optional>true</optional> Must be included if used as pure client -->
-<!-- 		</dependency> -->
-	
-<!-- 		<dependency> -->
-<!-- 			<groupId>org.jboss.remoting3</groupId> -->
-<!-- 			<artifactId>jboss-remoting</artifactId> -->
-<!-- 			<scope>runtime</scope> -->
-<!-- 		</dependency> -->
-	
-		<!-- Import the transaction spec API, we use provided scope as this has
-		     to be provided by a container anyway -->
-<!-- 		<dependency> -->
-<!-- 			<groupId>org.jboss.spec.javax.transaction</groupId> -->
-<!-- 			<artifactId>jboss-transaction-api_1.1_spec</artifactId> -->
-<!-- 			<scope>provided</scope> -->
-<!-- 		</dependency> -->
-	
-		<!-- Import the EJB 3.1 API. We'll use provided as this has to be provided 
-			by a container anyway -->
-<!-- 		<dependency> -->
-<!-- 			<groupId>org.jboss.spec.javax.ejb</groupId> -->
-<!-- 			<artifactId>jboss-ejb-api_3.1_spec</artifactId> -->
-<!-- 			<scope>provided</scope> -->
-<!-- 		</dependency> -->
-	
-		<!-- Import the CDI API, we use provided scope as the API is included in 
-			JBoss AS 7 -->
-<!-- 		<dependency> -->
-<!-- 			<groupId>javax.enterprise</groupId> -->
-<!-- 			<artifactId>cdi-api</artifactId> -->
-<!-- 			<scope>provided</scope> -->
-<!-- 		</dependency> -->
-		<!-- Import the JPA API, we use provided scope as the API is included in 
-			JBoss AS 7 -->
-<!-- 		<dependency> -->
-<!-- 			<groupId>org.hibernate.javax.persistence</groupId> -->
-<!-- 			<artifactId>hibernate-jpa-2.0-api</artifactId> -->
-<!-- 			<scope>provided</scope> -->
-<!-- 		</dependency> -->
-	
-		<!-- We depend on the EJB remote business interfaces of this application -->
-		<!-- <dependency> -->
-		<!-- <groupId>org.jboss.quickstarts.eap</groupId> -->
-		<!-- <artifactId>jboss-ejb-remote-server-side</artifactId> -->
-		<!-- <type>ejb-client</type> -->
-		<!-- <version>${project.version}</version> -->
-		<!-- </dependency> -->
-       
-<!--        <dependency> -->
-<!--            <groupId>org.jboss.xnio</groupId> -->
-<!--            <artifactId>xnio-api</artifactId> -->
-<!--            <scope>runtime</scope> -->
-<!--        </dependency> -->
-
-		<!-- client communications with the server use XNIO -->
-<!--         <dependency> -->
-<!--             <groupId>org.jboss.xnio</groupId> -->
-<!--             <artifactId>xnio-nio</artifactId> -->
-<!--             <scope>runtime</scope> -->
-<!--         </dependency> -->
-
-      <!-- The client needs JBoss remoting to access the server -->
-<!--        <dependency> -->
-<!--             <groupId>org.jboss.remoting3</groupId> -->
-<!--             <artifactId>jboss-remoting</artifactId> -->
-<!--             <scope>runtime</scope> -->
-<!--         </dependency> -->
-        
-<!--         <version.org.jboss.remote-naming>1.0.5.Final</version.org.jboss.remote-naming> -->
-<!--         <dependency> -->
-<!--             <groupId>org.jboss</groupId> -->
-<!--             <artifactId>jboss-remote-naming</artifactId> -->
-<!--             <scope>runtime</scope> -->
-<!--         </dependency> -->
-
-        <!-- Remote EJB accesses can be secured -->
-<!--         <dependency> -->
-<!--             <groupId>org.jboss.sasl</groupId> -->
-<!--             <artifactId>jboss-sasl</artifactId> -->
-<!--             <scope>runtime</scope> -->
-<!--         </dependency> -->
-
-        <!-- data serialization for invoking remote EJBs -->
-<!--         <dependency> -->
-<!--             <groupId>org.jboss.marshalling</groupId> -->
-<!--             <artifactId>jboss-marshalling-river</artifactId> -->
-<!--             <scope>runtime</scope> -->
-<!--         </dependency> -->
-		
-		<!-- Arquillian with Weld-->
-<!-- 		<dependency> -->
-<!-- 	        <groupId>org.jboss.spec</groupId> -->
-<!-- 	        <artifactId>jboss-javaee-6.0</artifactId> -->
-<!-- 	        <type>pom</type> -->
-<!-- 	    </dependency> -->
-<!-- 		<dependency> -->
-<!-- 		    <groupId>org.jboss.arquillian.junit</groupId> -->
-<!-- 		    <artifactId>arquillian-junit-container</artifactId> -->
-<!-- 		    <scope>test</scope> -->
-<!-- 		</dependency> -->
-<!-- 		<dependency> -->
-<!-- 		    <groupId>org.jboss.arquillian.container</groupId> -->
-<!-- 		    <artifactId>arquillian-weld-ee-embedded-1.1</artifactId> -->
-<!-- 		    <scope>test</scope> -->
-<!-- 		</dependency> -->
-<!-- 		<dependency> -->
-<!-- 		    <groupId>org.jboss.weld</groupId> -->
-<!-- 		    <artifactId>weld-core</artifactId> -->
-<!-- 		    <scope>test</scope> -->
-<!-- 		</dependency> -->
-
-		<!-- Test dependencies -->
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<scope>test</scope>
-		</dependency>
-		
-		<dependency>
-			<groupId>org.jboss.arquillian.junit</groupId>
-			<artifactId>arquillian-junit-container</artifactId>
-			<scope>test</scope>
-		</dependency>
-		
-		<dependency>
-			<groupId>org.wildfly</groupId>
-			<artifactId>wildfly-ejb-client-bom</artifactId>
-			<type>pom</type>
-			<!-- 
-				We'll use provided scope for the moment as we have dependencies on the EJB client both in src (remote service locator)
-				and in test.
-				Any project that wants to make use of remove service calls needs to make sure it has the EJB client libraries available.
-			-->
-			<scope>provided</scope>
-		</dependency>
-	</dependencies>
 	
 	<profiles>
 		<profile>
 			<id>ju-workspaceResolution-ju</id>
 			<properties>
 				<version.ju-util>6.0</version.ju-util>
+				<version.ju-db-testing>6.0</version.ju-db-testing>
 			</properties>
 		</profile>
 		<profile>
@@ -317,6 +225,14 @@
                     </plugin>
                 </plugins>
             </build>
+		</profile>
+		<profile>
+			<id>ju-eeTests</id>
+			
+			<modules>
+				<module>ju-ee-ear-jar</module>
+				<module>ju-ee-ear-ejb</module>
+			</modules>
 		</profile>
 	</profiles>
 </project>

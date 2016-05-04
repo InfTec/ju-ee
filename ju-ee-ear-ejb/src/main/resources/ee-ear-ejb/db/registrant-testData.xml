@@ -1,0 +1,5 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!-- Note: Dates seem to be of format year-day+1-month when using without time -->
+<dataset>
+  <registrant id="0" name="John Smith" email="john.smith@mailinator.com" phone_number="2125551212"/>
+</dataset>
