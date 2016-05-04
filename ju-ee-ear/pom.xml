@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    JBoss, Home of Professional Open Source
+    Copyright 2013, Red Hat, Inc. and/or its affiliates, and individual
+    contributors by the @authors tag. See the copyright.txt in the
+    distribution for a full listing of individual contributors.
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+    http://www.apache.org/licenses/LICENSE-2.0
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+--><project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>ch.inftec.ju</groupId>
+        <artifactId>ju-ee-parent</artifactId>
+        <version>6.0</version>
+    </parent>
+
+    <artifactId>ju-ee-ear</artifactId>
+    <packaging>ear</packaging>
+
+    <dependencies>
+        <!-- Depend on the ejb module and war so that we can package them -->
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>ju-ee-ear-web</artifactId>
+            <type>war</type>
+        </dependency>
+        
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>ju-ee-ear-ejb</artifactId>
+            <type>ejb</type>
+        </dependency>
+        
+        <!-- Include the server side tests. We might also move them to a separate test-ear to avoid having them
+             in the productive EAR -->
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>ju-ee-ear-ejb-test</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>ju-ee-ear-web-test</artifactId>
+        </dependency>
+        
+        <!-- Integration tests -->
+        <!-- Arquillian dependencies. TODO: Maybe move to ee-ear-ejb-test as transitive dependencies -->
+<!--         <dependency> -->
+<!--             <groupId>org.jboss.as</groupId> -->
+<!--             <artifactId>jboss-as-arquillian-container-remote</artifactId> -->
+<!--             <scope>test</scope> -->
+<!--         </dependency> -->
+        
+         <dependency>
+            <groupId>org.jboss.arquillian.protocol</groupId>
+            <artifactId>arquillian-protocol-servlet</artifactId>
+            <scope>test</scope>               
+        </dependency>
+
+<!-- Moved to ee-ear-ear-cargo -->        
+<!--         Include the test jars in test scope so we can run the integration tests -->
+<!--         <dependency> -->
+<!--         	<groupId>${project.groupId}</groupId> -->
+<!--         	<artifactId>ju-ee-ear-ejb-test</artifactId> -->
+<!--         	<version>${project.version}</version> -->
+<!--         	<type>test-jar</type> -->
+<!--         	<scope>test</scope> -->
+<!--         </dependency> -->
+<!--         <dependency> -->
+<!--         	<groupId>${project.groupId}</groupId> -->
+<!--         	<artifactId>ju-ee-ear-web-test</artifactId> -->
+<!--         	<version>${project.version}</version> -->
+<!--         	<type>test-jar</type> -->
+<!--         	<scope>test</scope> -->
+<!--         </dependency> -->
+        
+        <dependency>
+        	<groupId>${project.groupId}</groupId>
+        	<artifactId>ju-ee-ear-jar</artifactId>
+        	<version>${project.version}</version>
+        	<type>test-jar</type>
+        	<scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <finalName>${project.artifactId}</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-ear-plugin</artifactId>
+                <configuration>
+                    <!-- Tell Maven we are using Java EE 6 -->
+                    <version>6</version>
+                    <!-- Use Java EE ear libraries as needed. Java EE ear libraries 
+                        are in easy way to package any libraries needed in the ear, and automatically 
+                        have any modules (EJB-JARs and WARs) use them -->
+                    <defaultLibBundleDir>lib</defaultLibBundleDir>
+                    <modules></modules>
+                    <fileNameMapping>no-version</fileNameMapping>
+                </configuration>
+            </plugin>
+            <!-- The JBoss AS plugin deploys your ear to a local JBoss AS container -->
+            <!-- Due to Maven's lack of intelligence with EARs we need to configure 
+                the jboss-as maven plugin to skip deployment for all modules. We then enable 
+                it specifically in the ear module. -->
+            <plugin>
+                <groupId>org.jboss.as.plugins</groupId>
+                <artifactId>jboss-as-maven-plugin</artifactId>
+                <configuration>
+                    <filename>${project.artifactId}.ear</filename>
+                    <skip>false</skip>
+                </configuration>
+            </plugin>
+
+<!--             <plugin> -->
+<!--             	<groupId>org.apache.maven.plugins</groupId> -->
+<!--             	<artifactId>maven-failsafe-plugin</artifactId> -->
+<!--             	<executions> -->
+<!-- 		        	<execution> -->
+<!-- 		            	<goals> -->
+<!-- 		              		<goal>integration-test</goal> -->
+<!-- 		              		<goal>verify</goal> -->
+<!-- 		            	</goals> -->
+<!-- 		            	<configuration> -->
+<!-- 		            		<dependenciesToScan> -->
+<!-- 		            			<dependencyToScan>ch.inftec.webapp:ee-ear-ejb-test</dependencyToScan> -->
+<!-- 		            			<dependencyToScan>ch.inftec.webapp:ee-ear-jar</dependencyToScan> -->
+<!-- 		            		</dependenciesToScan> -->
+<!-- 		            	</configuration> -->
+<!-- 		          	</execution> -->
+<!-- 		    	</executions> -->
+<!--             </plugin> -->
+
+<!-- 			<plugin> -->
+<!-- 				<groupId>org.codehaus.cargo</groupId> -->
+<!-- 				<artifactId>cargo-maven2-plugin</artifactId> -->
+<!-- 				<version>${version.cargo.plugin}</version> -->
+		
+<!-- 				<executions> -->
+<!-- 					<execution> -->
+<!-- 						<id>start-container</id> -->
+<!-- 						<phase>pre-integration-test</phase> -->
+<!-- 						<goals> -->
+<!-- 							<goal>start</goal> -->
+<!-- 							<goal>deploy</goal> -->
+<!-- 						</goals> -->
+<!-- 					</execution> -->
+<!-- 					<execution> -->
+<!-- 						<id>stop-container</id> -->
+<!-- 						<phase>post-integration-test</phase> -->
+<!-- 						<goals> -->
+<!-- 							<goal>stop</goal> -->
+<!-- 						</goals> -->
+<!-- 					</execution> -->
+<!-- 				</executions> -->
+<!-- 			</plugin> -->
+        </plugins>
+    </build>
+   
+    <profiles>
+        <profile>
+            <!-- When built in OpenShift the 'openshift' profile will be used when invoking mvn. -->
+            <!-- Use this profile for any OpenShift specific customization your app will need. -->
+            <!-- By default that is to put the resulting archive into the 'deployments' folder. -->
+            <!-- http://maven.apache.org/guides/mini/guide-building-for-different-environments.html -->
+            <id>openshift</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-ear-plugin</artifactId>
+                        <configuration>
+                            <outputDirectory>deployments</outputDirectory>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        
+        <profile>
+        	<id>cargo-standalone</id>
+        	<activation>
+        		<activeByDefault>true</activeByDefault>
+        	</activation>
+        	<build>
+        		<plugins>
+        			<plugin>
+	        			<groupId>org.codehaus.cargo</groupId>
+						<artifactId>cargo-maven2-plugin</artifactId>
+		        		<configuration>
+							<container>
+								<containerId>jboss71x</containerId>
+							</container>
+							<configuration>
+								<type>standalone</type>
+								<!-- <home>${project.build.directory}/cargo/configurations/jboss71x</home>  --><!-- See https://svn.java.net/svn/mojarra~svn/trunk/test/pom.xml for explicit values examples-->
+								<properties>
+									<cargo.port.offset>10000</cargo.port.offset> <!-- Offset port as the default settings cause problems on Jenkins CI environment -->
+								</properties>
+							</configuration>
+							<deployables>
+								<deployable>
+									<!-- Artifact to deploy; change to your artifact 
+									<groupId>ch.inftec.webapp</groupId>
+									<artifactId>ju-ee-ear-ear</artifactId>
+									<type>ear</type>
+									-->
+									<!-- Don't forget to change the following to your apps URL -->
+									<pingURL>http://localhost:18080/ee-ear-web</pingURL>
+									<!-- This is the default; make larger if required -->
+									<pingTimeout>20000</pingTimeout>
+								</deployable>
+							</deployables>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+        </profile>
+        
+        <profile>
+        	<id>cargo-existing</id>
+        	<build>
+        		<plugins>
+        			<plugin>
+	        			<groupId>org.codehaus.cargo</groupId>
+						<artifactId>cargo-maven2-plugin</artifactId>
+						<version>${version.cargo.plugin}</version>
+		        		<configuration>
+							<container>
+								<containerId>jboss71x</containerId>
+								<home>C:/esw/server/jboss-eap-6.0.1</home>
+		<!-- 						<zipUrlInstaller> -->
+		<!-- 							<url>http://download.jboss.org/jbossas/7.0/jboss-as-7.0.0.Final/jboss-as-7.0.0.Final.zip</url> -->
+		<!-- 						</zipUrlInstaller> -->
+							</container>
+							<configuration>
+								<home>C:/esw/server/jboss-eap-6.0.1/standalone</home>
+								<type>existing</type>
+								<properties>
+									<cargo.jboss.configuration>standalone_cargo</cargo.jboss.configuration>
+									<cargo.jboss.deployment.dir>deployments_cargo</cargo.jboss.deployment.dir>
+								</properties>
+							</configuration>
+							<deployables>
+								<deployable>
+									<!-- Artifact to deploy; change to your artifact -->
+									<groupId>ch.inftec.webapp</groupId>
+									<artifactId>ju-ee-ear-ear</artifactId>
+									<type>ear</type>
+									<!-- Don't forget to change the following to your apps URL -->
+									<pingURL>http://localhost:8080/ee-ear-web</pingURL>
+									<!-- This is the default; make larger if required -->
+									<pingTimeout>20000</pingTimeout>
+								</deployable>
+							</deployables>
+						</configuration>
+					</plugin>
+        		</plugins>
+        	</build>
+        </profile>
+    </profiles>
+
+</project>
