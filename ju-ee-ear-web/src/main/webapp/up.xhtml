@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--  Helper JSF to act as a ping page for cargo to check if startup of JBoss is complete.
+      We access the StartupBean that performs initialization. If we don't, the web context is
+      available before.
+ -->
+ 
+<html xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+   xmlns:f="http://java.sun.com/jsf/core">
+<h:head>
+	<title>EAR up test</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+</h:head>
+<h:body>
+	<h1>Startup complete</h1>
+	StartupBean.isUp: <span id="isUp">#{startupBean.up}</span>
+	
+	<h3>Go back to <a href="index.jsf">Member registration</a></h3>
+</h:body>
+</html>

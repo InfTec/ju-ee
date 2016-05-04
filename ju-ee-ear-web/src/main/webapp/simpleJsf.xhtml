@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Simple JSF to test data access -->
+<html xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+   xmlns:f="http://java.sun.com/jsf/core">
+<h:head>
+	<title>JSF Tests</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+</h:head>
+<h:body>
+	<h:form id="playerFrm">
+		<h1>Simple Data Access</h1>
+		Player count EM: <span id="playerCntEm">#{playerData.playerCountEm}</span>
+		Player count Repo: <span id="playerCntRepo">#{playerData.playerCountRepo}</span>
+		Test: #{playerData.test}
+		<p>
+		First Player Name:
+		<h:inputText id="firstPlayerName" value="#{playerData.firstPlayerName}"/>
+		<h:commandButton id="btnSave" value="Save" action="#{playerData.saveFirstPlayerName}"/>
+		<br/>
+		First Player Name on DB <span id="firstPlayerNameOnDb">#{playerData.firstPlayerNameOnDb}</span>
+		</p>
+	</h:form>
+		
+	<h3>Go back to <a href="index.jsf">Member registration</a></h3>
+	<!-- 
+	<h:dataTable var="_member" value="#{members}" rendered="#{not empty members}" styleClass="simpletablestyle">
+         <h:column>
+            <f:facet name="header">Id</f:facet>
+                #{_member.id}
+            </h:column>
+         <h:column>
+            <f:facet name="header">Name</f:facet>
+                #{_member.name}
+            </h:column>
+         <h:column>
+            <f:facet name="header">Email</f:facet>
+                #{_member.email}
+            </h:column>
+         <h:column>
+            <f:facet name="header">Phone #</f:facet>
+                #{_member.phoneNumber}
+            </h:column>
+         <h:column>
+            <f:facet name="header">REST URL</f:facet>
+            <a href="#{request.contextPath}/rest/members/#{_member.id}">/rest/members/#{_member.id}</a>
+         </h:column>
+         <f:facet name="footer">
+            REST URL for all members: <a href="#{request.contextPath}/rest/members">/rest/members</a>
+         </f:facet>
+      </h:dataTable>
+	 -->
+</h:body>
+</html>
