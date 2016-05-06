@@ -66,7 +66,6 @@
 		<version.selenium.phantomjs>1.2.0</version.selenium.phantomjs>
 		
 		<!-- Plugins -->
-		<version.ju-maven-plugin>6.0</version.ju-maven-plugin> <!-- TODO: Use deployed version... -->
 		<version.cargo-plugin>1.4.19</version.cargo-plugin>
 		
 	</properties>
@@ -248,7 +247,7 @@
 				<plugin>
 					<groupId>ch.inftec.ju</groupId>
 					<artifactId>ju-maven-plugin</artifactId>
-					<version>${version.ju-maven-plugin}</version>
+					<version>${version.ju-util}</version>
 				</plugin>
 				
 				<plugin>
