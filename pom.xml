@@ -36,6 +36,13 @@
 			<url>https://mvn.inftec.ch/nexus/content/repositories/inftec-nightly</url>
 		</repository>
 	</repositories>
+	<pluginRepositories>
+		<pluginRepository>
+			<id>inftec-nightly-plugins</id>
+			<name>Inftec Nightly Release Repository, Plugins</name>
+			<url>https://mvn.inftec.ch/nexus/content/repositories/inftec-nightly</url>
+		</pluginRepository>
+	</pluginRepositories>
 	
 	<modules>
 		<module>ju-ee</module>
