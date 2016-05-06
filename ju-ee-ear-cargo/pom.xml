@@ -219,7 +219,7 @@
 		        		<configuration>
 		        			<!-- For details, see http://cargo.codehaus.org/Maven2+Plugin+Reference+Guide -->
 							<container>
-								<containerId>jboss71x</containerId>
+								<containerId>wildfly10x</containerId>
 								<home>${cargo.jboss.home}</home>
 								<systemProperties>
 									<ju-util-ee.portOffset>${ju-util-ee.portOffset}</ju-util-ee.portOffset>
@@ -230,22 +230,22 @@
 								<type>standalone</type>
 								<!-- <home>${project.build.directory}/cargo/configurations/jboss71x</home>  --><!-- See https://svn.java.net/svn/mojarra~svn/trunk/test/pom.xml for explicit values examples-->
 								<properties>
-									<cargo.port.offset>${ju-util-ee.portOffset}</cargo.port.offset> <!-- Offset port as the default settings cause problems on Jenkins CI environment -->
-									<cargo.hornetq.dirPrefix>${ju.ee.jboss.hornetqDirPrefix}</cargo.hornetq.dirPrefix>
+<!-- 									<cargo.port.offset>${ju-util-ee.portOffset}</cargo.port.offset> Offset port as the default settings cause problems on Jenkins CI environment -->
+<!-- 									<cargo.hornetq.dirPrefix>${ju.ee.jboss.hornetqDirPrefix}</cargo.hornetq.dirPrefix> -->
 <!-- 									<cargo.logging>high</cargo.logging> -->
-<!-- 									<cargo.jboss.configuration>standalone_ju-ee-ear</cargo.jboss.configuration> -->
+									<cargo.jboss.configuration>standalone-full</cargo.jboss.configuration>
 								</properties>
 																
-								<configfiles>
+<!-- 								<configfiles> -->
 									<!-- Note: When overwriting the standalone.xml file, cargo properties are not applied automatically. We must use the token
 									           explicitly in the standalone.xml template, e.g. @cargo.port.offset@
 									-->
-									<configfile>
-										<file>${project.basedir}/src/test/resources/jbossConfigFiles/standalone_ju-ee-ear.xml</file>
-										<todir>configuration</todir>
-										<tofile>standalone.xml</tofile> <!-- We need to overwrite the standalone.xml file as Cardo seems to check for an existing configuration before it copies configuration files...  -->
-									</configfile>
-								</configfiles>
+<!-- 									<configfile> -->
+<!-- 										<file>${project.basedir}/src/test/resources/jbossConfigFiles/standalone_ju-ee-ear.xml</file> -->
+<!-- 										<todir>configuration</todir> -->
+<!-- 										<tofile>standalone.xml</tofile> We need to overwrite the standalone.xml file as Cardo seems to check for an existing configuration before it copies configuration files...  -->
+<!-- 									</configfile> -->
+<!-- 								</configfiles> -->
 							</configuration>
 							
 							<deployables>

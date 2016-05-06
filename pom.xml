@@ -63,6 +63,11 @@
 		<version.selenium>2.53.0</version.selenium>
 		<version.selenium.htmlunit>2.20</version.selenium.htmlunit>
 		<version.selenium.phantomjs>1.2.0</version.selenium.phantomjs>
+		
+		<!-- Plugins -->
+		<version.ju-maven-plugin>6.0</version.ju-maven-plugin> <!-- TODO: Use deployed version... -->
+		<version.cargo-plugin>1.4.19</version.cargo-plugin>
+		
 	</properties>
 	
 	<dependencyManagement>
@@ -242,7 +247,13 @@
 				<plugin>
 					<groupId>ch.inftec.ju</groupId>
 					<artifactId>ju-maven-plugin</artifactId>
-					<version>${project.version}</version>
+					<version>${version.ju-maven-plugin}</version>
+				</plugin>
+				
+				<plugin>
+					<groupId>org.codehaus.cargo</groupId>
+    				<artifactId>cargo-maven2-plugin</artifactId>
+    				<version>${version.cargo-plugin}</version>
 				</plugin>
 			</plugins>
 		</pluginManagement>

@@ -26,7 +26,7 @@ public class JmsSenderBean {
 	@Resource(mappedName = "java:/JmsXA")
 	private ConnectionFactory connectionFactory;
 
-	@Resource(mappedName = "java:/queue/ju")
+	@Resource(mappedName = "java:/jms/queue/ju")
 	private Queue queue;
 
 	public void send(String text) {
