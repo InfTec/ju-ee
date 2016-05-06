@@ -251,7 +251,7 @@
 			<artifactId>wildfly-ejb-client-bom</artifactId>
 			<type>pom</type>
 			<!-- Needed in ServiceLocatorBuilder to avoid use of properties file - verify that this works like this... -->
-			<scope>runtime</scope>
+			<scope>provided</scope>
 			<!-- TODO Provided scope or optional? -->
 		</dependency>
 	</dependencies>

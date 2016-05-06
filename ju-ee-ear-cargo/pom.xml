@@ -27,6 +27,16 @@
 	<description>We put the Cargo tests in a separate module as the failsafe plugin had problems verifying test results when we put the tests in the EAR module directly (as EARs don't have test classes usually).</description>
 	
     <dependencies>
+    	<!-- Client libraries - need to be added explicitly as we use scope provided to not mess up with the JBoss libraries... -->
+    	<dependency>
+			<groupId>org.wildfly</groupId>
+			<artifactId>wildfly-ejb-client-bom</artifactId>
+			<type>pom</type>
+			<!-- Needed in ServiceLocatorBuilder to avoid use of properties file - verify that this works like this... -->
+			<scope>provided</scope>
+			<!-- TODO Provided scope or optional? -->
+		</dependency>
+		
     	<!-- EAR to deploy -->
 		<dependency>
             <groupId>${project.groupId}</groupId>
@@ -199,6 +209,15 @@
 						<goals>
 							<goal>stop</goal>
 						</goals>
+						<!--
+							JBoss shutdown has problems. Might be related to https://issues.jboss.org/browse/JBEAP-3002 
+							Tried to decrease the timeout, but it would only seem to have an evect on starting, not stoping...		
+						-->
+						<configuration>
+							<container>
+								<timeout>1</timeout>
+							</container>
+						</configuration>
 					</execution>
 				</executions>
 			</plugin>

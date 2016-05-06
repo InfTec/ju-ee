@@ -45,7 +45,7 @@ public class JBossUtils {
 				
 				public Long getMessageCount() {
 					Long messageCount = MBeanUtils.queryPlatformMBeanServer(
-								String.format("jboss.as:subsystem=messaging,hornetq-server=default,jms-queue=%s", this.queueName))
+							String.format("jboss.as:subsystem=messaging-activemq,server=default,runtime-queue=%s", this.queueName))
 							.getAttribute("messageCount").get(Long.class);
 					return messageCount;
 				}

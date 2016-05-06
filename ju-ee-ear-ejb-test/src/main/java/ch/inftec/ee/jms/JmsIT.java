@@ -3,6 +3,7 @@ package ch.inftec.ee.jms;
 import java.util.List;
 
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import ch.inftec.ju.ee.test.ContainerTest;
@@ -10,6 +11,7 @@ import ch.inftec.ju.testing.db.DataVerifier;
 import ch.inftec.ju.testing.db.DataVerify;
 import ch.inftec.ju.util.jmx.MBeanUtils;
 
+@Ignore("PR-285 Need to migrate JmsTester...")
 public class JmsIT extends ContainerTest {
 	@Test
 	public void canSendMessage() {

@@ -27,6 +27,15 @@
     <artifactId>ju-ee-ear-ejb-test</artifactId>
 
     <dependencies>
+    	<dependency>
+			<groupId>org.wildfly</groupId>
+			<artifactId>wildfly-ejb-client-bom</artifactId>
+			<type>pom</type>
+			<!-- Needed in ServiceLocatorBuilder to avoid use of properties file - verify that this works like this... -->
+			<scope>provided</scope>
+			<!-- TODO Provided scope or optional? -->
+		</dependency>
+		
 		<!-- Add log4j dependency on top to avoid it being 'shadowed' by the JBoss logging libraries, resulting in empty output -->
 		<dependency>
 			<groupId>log4j</groupId>
@@ -35,10 +44,10 @@
 		</dependency>
 		
         <dependency>
-				<groupId>javax</groupId>
-				<artifactId>javaee-api</artifactId>
-				<scope>provided</scope>
-			</dependency>
+			<groupId>javax</groupId>
+			<artifactId>javaee-api</artifactId>
+			<scope>runtime</scope>
+		</dependency>
 
         <!-- Import the CDI API, we use provided scope as the API is included in JBoss AS 7 -->
         <dependency>
@@ -142,21 +151,21 @@
         </dependency>
         
         <!-- Dependencies for remote lookup to run server tests -->
-        <dependency>
-           <groupId>org.jboss</groupId>
-           <artifactId>jboss-ejb-client</artifactId>
-           <scope>runtime</scope>
-       </dependency>
-        <dependency>
-            <groupId>org.jboss.xnio</groupId>
-            <artifactId>xnio-nio</artifactId>
-            <scope>runtime</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.jboss</groupId>
-            <artifactId>jboss-remote-naming</artifactId>
-            <scope>runtime</scope>
-        </dependency>
+<!--         <dependency> -->
+<!--            <groupId>org.jboss</groupId> -->
+<!--            <artifactId>jboss-ejb-client</artifactId> -->
+<!--            <scope>test</scope> -->
+<!--        </dependency> -->
+<!--         <dependency> -->
+<!--             <groupId>org.jboss.xnio</groupId> -->
+<!--             <artifactId>xnio-nio</artifactId> -->
+<!--             <scope>test</scope> -->
+<!--         </dependency> -->
+<!--         <dependency> -->
+<!--             <groupId>org.jboss</groupId> -->
+<!--             <artifactId>jboss-remote-naming</artifactId> -->
+<!--             <scope>test</scope> -->
+<!--         </dependency> -->
     </dependencies>
 
     <build>

@@ -4,8 +4,7 @@ import org.openqa.selenium.WebDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import ch.inftec.ju.util.JuUtils;
-import ch.inftec.ju.util.PropertyChain;
+import ch.inftec.ju.ee.test.UrlTestUtils;
 
 /**
  * Utility class containing web test helper methods.
@@ -22,15 +21,11 @@ public class WebTestUtils {
 	 * 
 	 * @param subPageUrl
 	 *            Page URL without host an port
+	 * @deprecated Use UrlTestUtils.getPageUrl instead
 	 */
+	@Deprecated
 	public static String getPageUrl(String subPageUrl) {
-		PropertyChain pc = JuUtils.getJuPropertyChain();
-
-		String host = pc.get("ju-testing-ee.web.host");
-		Integer port = pc.get("ju-testing-ee.web.port", Integer.class) + pc.get("ju-util-ee.portOffset", Integer.class);
-
-		String url = String.format("http://%s:%d/%s", host, port, subPageUrl);
-		return url;
+		return UrlTestUtils.getPageUrl(subPageUrl);
 	}
 
 	/**
@@ -44,7 +39,7 @@ public class WebTestUtils {
 	 *            Page URL
 	 */
 	public static void getPage(WebDriver driver, String subPageUrl) {
-		String url = WebTestUtils.getPageUrl(subPageUrl);
+		String url = UrlTestUtils.getPageUrl(subPageUrl);
 		logger.debug("Getting " + url);
 		
 		driver.get(url);	

@@ -59,6 +59,13 @@
 <!--             <scope>test</scope> -->
 <!--         </dependency> -->
         
+        <!-- For some reason, junit gets scope 'test' which causes problems executing container tests... -->
+        <dependency>
+        	<groupId>junit</groupId>
+        	<artifactId>junit</artifactId>
+        	<scope>compile</scope>
+        </dependency>
+        
          <dependency>
             <groupId>org.jboss.arquillian.protocol</groupId>
             <artifactId>arquillian-protocol-servlet</artifactId>

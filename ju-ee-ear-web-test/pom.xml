@@ -154,10 +154,11 @@
 		<!-- <artifactId>selenium-java</artifactId> -->
 		<!-- </dependency> -->
 
-<!-- 		<dependency> -->
-<!-- 			<groupId>org.seleniumhq.selenium</groupId> -->
-<!-- 			<artifactId>selenium-htmlunit-driver</artifactId> -->
-<!-- 		</dependency> -->
+		<dependency>
+	        <groupId>org.seleniumhq.selenium</groupId>
+	        <artifactId>htmlunit-driver</artifactId>
+		</dependency>
+		
 <!-- 		<dependency> -->
 <!-- 			<groupId>org.seleniumhq.selenium</groupId> -->
 <!-- 			<artifactId>selenium-chrome-driver</artifactId> -->
@@ -201,20 +202,29 @@
 			TODO: Move version declaration.
 		-->
 		<dependency>
-			<groupId>org.jboss</groupId>
-			<artifactId>jboss-ejb-client</artifactId>
-			<scope>runtime</scope>
+			<groupId>org.wildfly</groupId>
+			<artifactId>wildfly-ejb-client-bom</artifactId>
+			<type>pom</type>
+			<!-- Needed in ServiceLocatorBuilder to avoid use of properties file - verify that this works like this... -->
+			<scope>provided</scope>
+			<!-- TODO Provided scope or optional? -->
 		</dependency>
-		<dependency>
-			<groupId>org.jboss.xnio</groupId>
-			<artifactId>xnio-nio</artifactId>
-			<scope>runtime</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.jboss</groupId>
-			<artifactId>jboss-remote-naming</artifactId>
-			<scope>runtime</scope>
-		</dependency>
+		
+<!-- 		<dependency> -->
+<!-- 			<groupId>org.jboss</groupId> -->
+<!-- 			<artifactId>jboss-ejb-client</artifactId> -->
+<!-- 			<scope>runtime</scope> -->
+<!-- 		</dependency> -->
+<!-- 		<dependency> -->
+<!-- 			<groupId>org.jboss.xnio</groupId> -->
+<!-- 			<artifactId>xnio-nio</artifactId> -->
+<!-- 			<scope>runtime</scope> -->
+<!-- 		</dependency> -->
+<!-- 		<dependency> -->
+<!-- 			<groupId>org.jboss</groupId> -->
+<!-- 			<artifactId>jboss-remote-naming</artifactId> -->
+<!-- 			<scope>runtime</scope> -->
+<!-- 		</dependency> -->
 
 		<!-- Contains Resteasy Client API -->
 		<dependency>

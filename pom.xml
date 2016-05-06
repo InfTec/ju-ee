@@ -44,8 +44,9 @@
 	</modules>
 	
 	<properties>
-		<version.ju-util>6.0-2</version.ju-util>
-		<version.ju-db-testing>6.0-S-1</version.ju-db-testing>
+		<version.ju-util>6.0-S-15</version.ju-util>
+		<version.ju-db-testing>6.0-S-3</version.ju-db-testing>
+<!-- 		<version.ju-db-testing>6.0</version.ju-db-testing> -->
 		<version.slf4j>1.7.21</version.slf4j>
 		<version.javaee-api>7.0</version.javaee-api>
 		<version.org.jboss.as>10.0.0.Final</version.org.jboss.as>
@@ -310,7 +311,11 @@
             </build>
 		</profile>
 		<profile>
+			<!-- Include testing modules in a profile so we can deactivate them for deployment -->
 			<id>ju-eeTests</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
 			
 			<modules>
 				<module>ju-ee-ear-jar</module>
