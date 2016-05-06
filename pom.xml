@@ -140,6 +140,31 @@
 			</dependency>
 			
 			<dependency>
+	            <groupId>${project.groupId}</groupId>
+	            <artifactId>ju-ee-ear-web</artifactId>
+	            <version>${project.version}</version>
+	            <type>war</type>
+	        </dependency>
+			
+			<dependency>
+	            <groupId>${project.groupId}</groupId>
+	            <artifactId>ju-ee-ear-ejb-test</artifactId>
+	            <version>${project.version}</version>
+	        </dependency>
+	        <dependency>
+	            <groupId>${project.groupId}</groupId>
+	            <artifactId>ju-ee-ear-web-test</artifactId>
+	            <version>${project.version}</version>
+	        </dependency>
+	        
+	        <dependency>
+	            <groupId>${project.groupId}</groupId>
+	            <artifactId>ju-ee-ear</artifactId>
+	            <version>${project.version}</version>
+	            <type>ear</type>
+	        </dependency>
+			
+			<dependency>
 				<groupId>ch.inftec.ju</groupId>
 				<artifactId>ju-util</artifactId>
 				<version>${version.ju-util}</version>
@@ -211,6 +236,18 @@
 		</dependencies>
 	</dependencyManagement>
 	
+	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>ch.inftec.ju</groupId>
+					<artifactId>ju-maven-plugin</artifactId>
+					<version>${project.version}</version>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>
+	
 	<profiles>
 		<profile>
 			<id>ju-workspaceResolution-ju</id>
@@ -270,6 +307,8 @@
 				<module>ju-ee-ear-ejb-test</module>
 				<module>ju-ee-ear-web</module>
 				<module>ju-ee-ear-web-test</module>
+				<module>ju-ee-ear</module>
+				<module>ju-ee-ear-cargo</module>
 			</modules>
 		</profile>
 	</profiles>
