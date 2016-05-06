@@ -4,7 +4,7 @@ package ch.inftec.ju.ee.test;
 /**
  * Convenience class to test RemoteContainerTest in combination with the
  * RemoteContainerTester object.
- * @author Martin Meyer <martin.meyer@inftec.ch>
+ * @author martin.meyer@inftec.ch
  *
  */
 public abstract class RemoteContainerTesterTest extends RemoteContainerTest {

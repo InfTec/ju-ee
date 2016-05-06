@@ -10,14 +10,14 @@ import ch.inftec.ju.ee.test.ContainerTestScoped;
  * <p>
  * Added when experiencing problems with more than one container test scoped producer.
  * 
- * @author Martin Meyer <martin.meyer@inftec.ch>
+ * @author martin.meyer@inftec.ch
  *
  */
 public class ContainerTestScopeProducer {
 	/**
 	 * We cannot use String directly as it is final and thus not proxyable (required for non pseudo scopes)
 	 * 
-	 * @author Martin Meyer <martin.meyer@inftec.ch>
+	 * @author martin.meyer@inftec.ch
 	 *
 	 */
 	public static class MyString {

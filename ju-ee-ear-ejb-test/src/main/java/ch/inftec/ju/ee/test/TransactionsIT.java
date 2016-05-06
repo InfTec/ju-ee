@@ -15,6 +15,7 @@ public class TransactionsIT extends RemoteContainerTesterTest {
 	
 	/**
 	 * Test case using multiple (2) transactions. The test case looks as follows:
+	 * {@code
 	 * T1
 	 * 	T2
 	 * Enter
@@ -30,7 +31,7 @@ public class TransactionsIT extends RemoteContainerTesterTest {
 	 * Check:
 	 * 	E1 -> obj
 	 * 	E2 -> obj
-	 * 
+	 * }
 	 */
 	@Test
 	@DataSet("ju-testing/data/default-noData.xml")
@@ -61,6 +62,7 @@ public class TransactionsIT extends RemoteContainerTesterTest {
 	
 	/**
 	 * Test case using multiple (2) transactions. The test case looks as follows:
+	 * {@code
 	 * T1
 	 * 	T2
 	 * Enter
@@ -76,7 +78,7 @@ public class TransactionsIT extends RemoteContainerTesterTest {
 	 * Check:
 	 * 	E1 -> null
 	 * 	E2 -> obj
-	 * 
+	 * }
 	 */
 	@Test
 	@DataSet("ju-testing/data/default-noData.xml")

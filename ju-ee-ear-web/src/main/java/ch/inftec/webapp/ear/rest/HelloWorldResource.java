@@ -11,7 +11,7 @@ import org.jboss.resteasy.links.LinkResource;
  * 
  * Service will be exposed at ju-ee-ear-web/rest/helloworld
  * 
- * @author Martin Meyer <martin.meyer@inftec.ch>
+ * @author martin.meyer@inftec.ch
  * 
  */
 @Path("helloworld")

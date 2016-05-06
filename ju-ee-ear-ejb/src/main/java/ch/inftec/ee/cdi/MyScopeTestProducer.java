@@ -8,7 +8,7 @@ import ch.inftec.ju.ee.cdi.DynamicCdiLoader;
 
 /**
  * Test of a producer that will lookup a dynamic bean and provide it with scope Request.
- * @author Martin Meyer <martin.meyer@inftec.ch>
+ * @author martin.meyer@inftec.ch
  *
  */
 public class MyScopeTestProducer {

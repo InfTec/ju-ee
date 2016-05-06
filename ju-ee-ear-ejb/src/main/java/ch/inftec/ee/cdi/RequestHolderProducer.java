@@ -8,7 +8,7 @@ import ch.inftec.ju.ee.test.sim.RequestHolder;
 /**
  * Producer for RequestHolder, used in RequestHolderIT.
  * 
- * @author Martin Meyer <martin.meyer@inftec.ch>
+ * @author martin.meyer@inftec.ch
  * 
  */
 public class RequestHolderProducer {

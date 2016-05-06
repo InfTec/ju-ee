@@ -5,7 +5,7 @@ import java.util.Map;
 
 /**
  * Test class for CDI lookup.
- * @author Martin Meyer <martin.meyer@inftec.ch>
+ * @author martin.meyer@inftec.ch
  *
  */
 public class AbstractCdi {

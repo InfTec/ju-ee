@@ -36,7 +36,7 @@ public class ContainerTestScopeController {
 	 * We'll need a separate class that acts as the actual producer to avoid cyclic dependencies as we need to
 	 * have CDI inject our beans.
 	 * 
-	 * @author Martin Meyer <martin.meyer@inftec.ch>
+	 * @author martin.meyer@inftec.ch
 	 * 
 	 */
 	static class Producer {

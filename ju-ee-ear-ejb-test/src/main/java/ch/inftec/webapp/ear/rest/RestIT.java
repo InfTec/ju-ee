@@ -11,7 +11,7 @@ import ch.inftec.ju.ee.test.UrlTestUtils;
  * Test class to access a RESTful service from within JBoss. This makes sure that
  * the application server contains the correct dependencies to call a RESTful service.
  * <p>
- * @author Martin Meyer <martin.meyer@inftec.ch>
+ * @author martin.meyer@inftec.ch
  * 
  */
 public class RestIT extends ContainerTest {

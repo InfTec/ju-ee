@@ -9,7 +9,7 @@ import ch.inftec.ju.ee.test.ContainerTest;
 /**
  * ContainerTestContext related tests that run as ContainerTests.
  * 
- * @author Martin Meyer <martin.meyer@inftec.ch>
+ * @author martin.meyer@inftec.ch
  * 
  */
 public class ContainerTestContextIT extends ContainerTest {

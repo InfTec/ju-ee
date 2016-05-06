@@ -8,7 +8,7 @@ import ch.inftec.ju.ee.test.ContainerTestScoped;
 /**
  * Test bean annotated with @ContainerTestScoped used in ContainerTestScopeIT.
  * 
- * @author Martin Meyer <martin.meyer@inftec.ch>
+ * @author martin.meyer@inftec.ch
  * 
  */
 @ContainerTestScoped

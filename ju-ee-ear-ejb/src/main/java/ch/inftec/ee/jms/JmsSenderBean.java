@@ -15,7 +15,7 @@ import org.slf4j.Logger;
 
 /**
  * Bean to put messages on a JMS queue.
- * @author Martin Meyer <martin.meyer@inftec.ch>
+ * @author martin.meyer@inftec.ch
  *
  */
 @Stateless

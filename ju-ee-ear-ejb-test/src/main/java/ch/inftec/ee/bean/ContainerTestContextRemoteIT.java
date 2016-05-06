@@ -12,7 +12,7 @@ import ch.inftec.ju.util.AssertUtil;
 /**
  * Contains tests that are performed on a Remote bean without using the ContainerTest facility.
  * 
- * @author Martin Meyer <martin.meyer@inftec.ch>
+ * @author martin.meyer@inftec.ch
  * 
  */
 public class ContainerTestContextRemoteIT {

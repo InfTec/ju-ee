@@ -5,7 +5,7 @@ import ch.inftec.ju.testing.db.data.repo.TestingEntityRepo;
 
 /**
  * Remote object that will be called ty the RemoteContainerTestIT.
- * @author Martin Meyer <martin.meyer@inftec.ch>
+ * @author martin.meyer@inftec.ch
  *
  */
 public class RemoteContainerTestITTester extends RemoteContainerTester {

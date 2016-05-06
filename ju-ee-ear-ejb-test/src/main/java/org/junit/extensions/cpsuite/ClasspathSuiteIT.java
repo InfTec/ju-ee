@@ -14,7 +14,7 @@ import org.junit.runners.Suite.SuiteClasses;
  * Test case to verify that ClasspathSuite is working in an application server
  * (i.e. EAR) context.
  * 
- * @author Martin Meyer <martin.meyer@inftec.ch>
+ * @author martin.meyer@inftec.ch
  * 
  */
 @RunWith(Suite.class)

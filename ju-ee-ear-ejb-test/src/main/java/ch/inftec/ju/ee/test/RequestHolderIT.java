@@ -8,7 +8,7 @@ import ch.inftec.ju.ee.test.sim.RequestHolder;
 /**
  * Integration Test to make sure we can use the RequestHolder in a ContainerTest context with ContainerTestScope.
  * 
- * @author Martin Meyer <martin.meyer@inftec.ch>
+ * @author martin.meyer@inftec.ch
  * 
  */
 public class RequestHolderIT extends ContainerTest {

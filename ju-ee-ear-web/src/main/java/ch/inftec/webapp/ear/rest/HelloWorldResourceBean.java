@@ -6,7 +6,7 @@ package ch.inftec.webapp.ear.rest;
  * 
  * Service will be exposed at ju-ee-ear-web/rest/helloworld
  * 
- * @author Martin Meyer <martin.meyer@inftec.ch>
+ * @author martin.meyer@inftec.ch
  * 
  */
 public class HelloWorldResourceBean implements HelloWorldResource {

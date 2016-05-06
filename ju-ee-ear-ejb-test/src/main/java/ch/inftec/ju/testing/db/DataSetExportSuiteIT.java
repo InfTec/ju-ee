@@ -17,7 +17,7 @@ import ch.inftec.ju.testing.db.data.repo.TestingEntityRepo;
 /**
  * Test to make sure that ContainerTests are working when referenced by a DataSetExportSuite.
  * 
- * @author Martin Meyer <martin.meyer@inftec.ch>
+ * @author martin.meyer@inftec.ch
  * 
  */
 @RunWith(DataSetExportSuite.class)

@@ -14,7 +14,7 @@ import ch.inftec.ju.ee.webtest.WebTestUtils;
 /**
  * Test class to access RESTful service.
  * 
- * @author Martin Meyer <martin.meyer@inftec.ch>
+ * @author martin.meyer@inftec.ch
  * 
  */
 public class RestTest {

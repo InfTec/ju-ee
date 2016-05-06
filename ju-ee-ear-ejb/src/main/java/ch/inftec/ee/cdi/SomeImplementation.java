@@ -2,7 +2,7 @@ package ch.inftec.ee.cdi;
 
 /**
  * Class to test CDI lookup for implemention of an interface.
- * @author Martin Meyer <martin.meyer@inftec.ch>
+ * @author martin.meyer@inftec.ch
  *
  */
 public class SomeImplementation implements SomeInterface {

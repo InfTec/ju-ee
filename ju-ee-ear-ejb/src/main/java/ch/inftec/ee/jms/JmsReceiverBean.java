@@ -12,7 +12,7 @@ import org.slf4j.Logger;
 
 /**
  * Bean to receive messages from a JMS queue.
- * @author Martin Meyer <martin.meyer@inftec.ch>
+ * @author martin.meyer@inftec.ch
  *
  */
 @MessageDriven(activationConfig = {

@@ -13,7 +13,7 @@ import ch.inftec.ju.testing.db.JuTestEnv;
 
 /**
  * Test for VFS protocol substitution in JuUrl.
- * @author Martin Meyer <martin.meyer@inftec.ch>
+ * @author martin.meyer@inftec.ch
  *
  */
 public class JuUrlIT extends ContainerTest {

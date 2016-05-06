@@ -46,7 +46,7 @@ import ch.inftec.webapp.ear.service.MemberRegistration;
 
 /**
  * JAX-RS Example
- * <p/>
+ * <p>
  * This class produces a RESTful service to read/write the contents of the members table.
  */
 @Path("/members")
