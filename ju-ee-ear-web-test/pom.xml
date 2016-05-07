@@ -137,6 +137,7 @@
 		<dependency>
 			<groupId>ch.inftec.ju</groupId>
 			<artifactId>ju-ee-testing-web</artifactId>
+			<scope>provided</scope>
 		</dependency>
 
 		<dependency>
