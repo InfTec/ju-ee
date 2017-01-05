@@ -6,6 +6,9 @@ import java.util.UUID;
 
 import org.junit.runner.Description;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
 import ch.inftec.ju.db.TxHandler;
 import ch.inftec.ju.ee.client.ServiceLocatorBuilder;
 import ch.inftec.ju.ee.test.TestRunnerFacade.ContextAware;
@@ -24,6 +27,8 @@ import ch.inftec.ju.testing.db.DbTestAnnotationHandler;
  * @author Martin
  *
  */
+
+@JsonDeserialize(using = TestRunnerAnnotationHandlerDeserializer.class)
 class TestRunnerAnnotationHandler extends DbTestAnnotationHandler implements Serializable {
 	private final TestRunnerContext context;
 	
