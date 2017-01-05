@@ -110,7 +110,12 @@ public class ContainerTestRunnerRule implements TestRule {
 		@Override
 		public void evaluate() throws Throwable {
 			try {
-				this.doEvaluation(TestRunnerUtils.getTestRunnerFacade(), this.context);
+				
+				// try the new Rest approach
+				this.doEvaluation(new RestTestRunnerFacade(), this.context);
+				
+				// Lookup TestRunnerFacadeBean with JNDI
+				//this.doEvaluation(TestRunnerUtils.getTestRunnerFacade(), this.context);
 			} catch (Throwable t) {
 				throw RemoteUtils.getActualThrowable(t);
 			}
