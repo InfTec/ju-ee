@@ -26,13 +26,13 @@ public class ContainerTestRunnerRuleIT {
 		throw new RuntimeException("Expected exception");
 	}
 	
-	@Ignore("Error test")
+//	@Ignore("Error test")
 	@Test
 	public void displaysAssertionError() {
 		Assert.fail("Error test");
 	}
 	
-	@Ignore("Error test")
+//	@Ignore("Error test")
 	@Test
 	public void displaysException() {
 		throw new JuRuntimeException("Error");
