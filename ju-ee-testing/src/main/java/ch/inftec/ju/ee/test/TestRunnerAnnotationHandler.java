@@ -28,8 +28,7 @@ import ch.inftec.ju.testing.db.DbTestAnnotationHandler;
  *
  */
 
-@JsonDeserialize(using = TestRunnerAnnotationHandlerDeserializer.class)
-class TestRunnerAnnotationHandler extends DbTestAnnotationHandler implements Serializable {
+public class TestRunnerAnnotationHandler extends DbTestAnnotationHandler implements Serializable {
 	private final TestRunnerContext context;
 	
 	TestRunnerAnnotationHandler(Method method, Description description, TestRunnerContext context) {
