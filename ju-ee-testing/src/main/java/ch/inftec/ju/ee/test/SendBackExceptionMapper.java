@@ -19,7 +19,8 @@ public class SendBackExceptionMapper implements ExceptionMapper<Exception>{
 	public Response toResponse(Exception exception) {
 		logger.info("Exception Intercepted");
 		logger.info(convertStacktraceToString(exception));
-		return Response.ok(exception,MediaType.APPLICATION_JSON).status(Response.Status.INTERNAL_SERVER_ERROR).build();
+		return Response.ok(convertStacktraceToString(exception),MediaType.TEXT_PLAIN).status(Response.Status.INTERNAL_SERVER_ERROR).build();
+		//return Response.ok(exception,MediaType.APPLICATION_JSON).status(Response.Status.INTERNAL_SERVER_ERROR).build();
 	}
 	
 	private String convertStacktraceToString(Exception exception){
