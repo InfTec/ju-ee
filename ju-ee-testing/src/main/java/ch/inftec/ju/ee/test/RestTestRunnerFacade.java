@@ -2,6 +2,9 @@ package ch.inftec.ju.ee.test;
 
 import ch.inftec.ju.util.SystemPropertyTempSetter;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.ws.rs.InternalServerErrorException;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
@@ -18,11 +21,24 @@ import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
 import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.module.SimpleModule;
 
 public class RestTestRunnerFacade implements TestRunnerFacade{
 
 	private Logger logger = Logger.getLogger(RestTestRunnerFacade.class);
 	private static final String RESOURCE_APP_PATH = "http://localhost:18080/ju-ee-ear-web/rest/testRunner/";
+	
+	private ObjectMapper objectMapper;
+	
+	public RestTestRunnerFacade(){
+		objectMapper = new ObjectMapper();
+		objectMapper.setVisibility(PropertyAccessor.FIELD,Visibility.ANY);
+		
+		SimpleModule module = new SimpleModule();
+		module.addDeserializer((Class<Map<String,String>>)(Class)Map.class, new MapDeserializer());
+		objectMapper.registerModule(module);
+
+	}
 	
 	@Override
 	public String getVersion() {
@@ -41,16 +57,14 @@ public class RestTestRunnerFacade implements TestRunnerFacade{
 	public SystemPropertyTempSetter runPreTestActionsInEjbContext(TestRunnerAnnotationHandler handler) throws Exception {
 		
 		try{
-			
-		ObjectMapper mapper = new ObjectMapper();
-		mapper.setVisibility(PropertyAccessor.FIELD,Visibility.ANY);
-		String jsonString = mapper.writeValueAsString(handler);
-		
+
+		String jsonString = objectMapper.writeValueAsString(handler);		
 		logger.info(jsonString);
-		
+
 		Client client = ClientBuilder.newClient();
 		//ResteasyClient client = new ResteasyClientBuilder().build();
 		WebTarget SimpleResource = client.target(RESOURCE_APP_PATH + "preTestActions");
+		
 		Invocation preTestInvocation = SimpleResource.request(MediaType.APPLICATION_JSON).buildPost(Entity.entity(jsonString, MediaType.APPLICATION_JSON));
 		
 		logger.info("[preTestActions] invoke Rest request");
@@ -61,7 +75,10 @@ public class RestTestRunnerFacade implements TestRunnerFacade{
 		// Recover Return value from Response
 		if(status < 300){
 				logger.info("[preTestActions] OK Response :" + status);
-				SystemPropertyTempSetter tempsetter  = response.readEntity(SystemPropertyTempSetter.class);
+				
+				jsonString = response.readEntity(String.class);
+				logger.info(jsonString);
+				SystemPropertyTempSetter tempsetter = objectMapper.readValue(jsonString, SystemPropertyTempSetter.class);
 				return tempsetter;
 		}else{
 			logger.info("[preTestActions] Response Code : " + status);
