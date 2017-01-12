@@ -1,4 +1,4 @@
-package ch.inftec.ju.ee.test;
+package ch.inftec.ju.ee.test.serialize;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -14,6 +14,11 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 
+/**
+ * 
+ * @author stefan.andonie@inftec.com
+ * Simple way to deserialize a Map<String,String>
+ */
 public class MapDeserializer extends JsonDeserializer<Map<String,String>>{
 	
 	Logger logger = Logger.getLogger(MapDeserializer.class);

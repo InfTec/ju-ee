@@ -1,5 +1,10 @@
 package ch.inftec.ju.ee.test;
 
+import ch.inftec.ju.ee.test.serialize.MapDeserializer;
+import ch.inftec.ju.ee.test.serialize.MapSerializer;
+import ch.inftec.ju.ee.test.serialize.SystemPropertyTempSetterDeserializer;
+import ch.inftec.ju.ee.test.serialize.SystemPropertyTempSetterSerializer;
+import ch.inftec.ju.ee.test.serialize.TestRunnerAnnotationHandlerDeserializer;
 import ch.inftec.ju.util.SystemPropertyTempSetter;
 
 import java.util.Map;
@@ -33,14 +38,32 @@ public class RestTestRunnerFacade implements TestRunnerFacade{
 		objectMapper.setVisibility(PropertyAccessor.FIELD,Visibility.ANY);
 		
 		SimpleModule module = new SimpleModule();
+		module.addDeserializer(SystemPropertyTempSetter.class, new SystemPropertyTempSetterDeserializer());
+		objectMapper.registerModule(module);
+		
+		module = new SimpleModule();
+		module.addSerializer(SystemPropertyTempSetter.class, new SystemPropertyTempSetterSerializer());
+		objectMapper.registerModule(module);
+		
+		/*
+		SimpleModule module = new SimpleModule();
 		module.addDeserializer((Class<Map<String,String>>)(Class)Map.class, new MapDeserializer());
 		objectMapper.registerModule(module);
+		
+		module = new SimpleModule();
+		module.addSerializer((Class<Map<String,String>>)(Class)Map.class, new MapSerializer());
+		objectMapper.registerModule(module);
+		*/
+		/*
+		module = new SimpleModule();
+		module.addDeserializer(TestRunnerAnnotationHandler.class, new TestRunnerAnnotationHandlerDeserializer());
+		objectMapper.registerModule(module);
+		*/
 
 	}
 	
 	@Override
 	public String getVersion() {
-		// https://docs.oracle.com/javaee/7/api/javax/ws/rs/client/Invocation.Builder.html
 		logger.info("return version");
 		
 		ResteasyClient client = new ResteasyClientBuilder().build();
@@ -126,6 +149,7 @@ public class RestTestRunnerFacade implements TestRunnerFacade{
 		return handleResponse(response,Object.class);
 	}
 	
+	// check response when no return value is expected
 	private void handleResponse(Response response) throws Exception {
 		
 		int status = response.getStatus();
@@ -136,6 +160,7 @@ public class RestTestRunnerFacade implements TestRunnerFacade{
 		}
 	}
 	
+	// check the response and get return value from response body
 	private <T> T handleResponse(Response response, Class<T> objClass) throws Exception {
 		
 		int status = response.getStatus();
@@ -157,9 +182,7 @@ public class RestTestRunnerFacade implements TestRunnerFacade{
 	
 	private void getExceptionFromResponse(Response response) throws Exception{
 				
-		// Try to find reason for error
-		//if(status >= 400 && status < 500) logger.info("[preTestActions] Service not found");
-		
+		// Try to find reason for error		
 		int status = response.getStatus();
 		logger.info("Response Code : " + status);
 
@@ -167,25 +190,11 @@ public class RestTestRunnerFacade implements TestRunnerFacade{
 		if(status >= 500){
 			logger.info("Internal Server error");
 			
-			Object ex = null;
-			try{
-				//ex =  response.readEntity(Exception.class);
-				
-				logger.error(response.readEntity(String.class));
-			}catch(Exception exception){
-				logger.error("Unable to deserialize Response body");
-				throw exception;
-			}
-			
-			/*
-			if(ex instanceof String){
-				logger.error((String) ex);
-				throw new InternalServerErrorException((String) ex);
-			}
-			if(ex instanceof Exception ){
-				throw (Exception) ex;
-			}
-			*/
+			// Retrieve the Stacktrace as String from the response body
+			// The Stacktrace can be used to reconstruct the exception
+			String exceptionAsString = response.readEntity(String.class);
+			throw new Exception(exceptionAsString);
+
 		}
 	}
 }

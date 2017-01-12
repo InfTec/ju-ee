@@ -1,4 +1,4 @@
-package ch.inftec.ju.ee.test;
+package ch.inftec.ju.ee.test.serialize;
 
 import java.io.IOException;
 import java.lang.reflect.Method;
@@ -16,8 +16,15 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import ch.inftec.ju.ee.test.TestRunnerAnnotationHandler;
+import ch.inftec.ju.ee.test.TestRunnerFacade;
 import ch.inftec.ju.ee.test.TestRunnerFacade.TestRunnerContext;
 
+/**
+ * 
+ * @author stefan.andonie@inftec.com
+ *
+ */
 public class TestRunnerAnnotationHandlerDeserializer extends JsonDeserializer<TestRunnerAnnotationHandler>{
 	
 	Logger logger = Logger.getLogger(TestRunnerAnnotationHandlerDeserializer.class);
@@ -41,9 +48,6 @@ public class TestRunnerAnnotationHandlerDeserializer extends JsonDeserializer<Te
 	    ObjectMapper mapper = new ObjectMapper();
 		mapper.setVisibility(PropertyAccessor.FIELD,Visibility.ANY);
 		context = mapper.readValue(contextNode.toString(), TestRunnerContext.class);
-
-		logger.info(contextNode.toString());
-		logger.info(context.getUuid().toString());
 
 	    //new Method for constructing DbTestAnnotationHandler
 	    Class clazz = TestRunnerAnnotationHandlerDeserializer.class.getClassLoader().loadClass(testClassName);

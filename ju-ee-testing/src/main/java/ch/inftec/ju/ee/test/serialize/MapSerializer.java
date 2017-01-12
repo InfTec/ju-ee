@@ -1,4 +1,4 @@
-package ch.inftec.ju.ee.test;
+package ch.inftec.ju.ee.test.serialize;
 
 import java.io.IOException;
 import java.util.Map;
@@ -13,6 +13,11 @@ import com.fasterxml.jackson.databind.SerializerProvider;
 
 import ch.inftec.ju.util.SystemPropertyTempSetter;
 
+/**
+ * 
+ * @author stefan.andonie@inftec.com
+ * Simple way to serialize a Map<String,String>
+ */
 public class MapSerializer extends JsonSerializer<Map<String,String>> {
 	
 	Logger logger = Logger.getLogger(MapSerializer.class);
