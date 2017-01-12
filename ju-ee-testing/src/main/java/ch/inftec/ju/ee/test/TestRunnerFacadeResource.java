@@ -13,6 +13,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
 
 import org.jboss.logging.Logger;
 
@@ -29,7 +30,6 @@ import javax.ejb.TransactionManagementType;
 import javax.enterprise.context.RequestScoped;
 
 
-//@Path("/testRunner")
 @Stateless
 @TransactionManagement(TransactionManagementType.BEAN)
 public class TestRunnerFacadeResource implements TestRunnerFacade {
@@ -57,17 +57,6 @@ public class TestRunnerFacadeResource implements TestRunnerFacade {
 	@Override
 	public SystemPropertyTempSetter runPreTestActionsInEjbContext(TestRunnerAnnotationHandler handler) throws Exception {
 		
-		/*
-		ObjectMapper mapper = new ObjectMapper();
-		mapper.setVisibility(PropertyAccessor.FIELD,Visibility.ANY);
-		String jsonString = mapper.writeValueAsString(handler);
-		
-		logger.info("tx is null : "+ this.tx == null);
-		logger.info("em is null :  "+ this.em == null);
-		
-		logger.info(jsonString);
-		*/
-		
 		logger.info("execute Pre run Actions");
 
 		try (ContainerTestContextSetter s = handler.new ContainerTestContextSetter()) {
@@ -84,17 +73,6 @@ public class TestRunnerFacadeResource implements TestRunnerFacade {
 				throw ex;
 			}
 
-			/* Test Map Serialization
-			
-			tempSetter.setProperty("foo", "bar");
-			tempSetter.setProperty("21", "27");
-			tempSetter.setProperty("key", "value");
-			
-			tempSetter.setEnv("aaaaaa", "bbbbbb");
-			tempSetter.setEnv("env", "env");
-			tempSetter.setEnv("44", "55");
-
-			*/
 			return tempSetter;
 		}
 	}
@@ -103,7 +81,7 @@ public class TestRunnerFacadeResource implements TestRunnerFacade {
 	@POST
 	@Consumes("application/json")
 	@Override
-	public void runTestMethodInEjbContext(TestRunnerAnnotationHandler handler) throws Exception {
+	public void runTestMethodInEjbContext(TestRunnerAnnotationHandler handler) {
 		logger.info("run Test Method in EJB Context");
 		try (ContainerTestContextSetter s = handler.new ContainerTestContextSetter()) {
 			try (TxHandler txHandler = new TxHandler(this.tx, true)) {
@@ -114,9 +92,15 @@ public class TestRunnerFacadeResource implements TestRunnerFacade {
 				handler.executeTestMethod(txHandler);
 
 				txHandler.commit(); // Perform a commit after the execution of the test method
+			} catch (Throwable t) {
+				throw wrapThrowable(t);
 			}
 		}
 		
+	}
+	
+	private RuntimeException wrapThrowable(Throwable originalThrowable) {
+		return new TestRunnerFacadeWrappingException(originalThrowable);
 	}
 
 	@Path("postTestActions")
@@ -142,6 +126,8 @@ public class TestRunnerFacadeResource implements TestRunnerFacade {
 		}
 	}
 
+	// indirect call of method
+	// since Rest allows only one Json Object per requestbody, the parameters are encapsulated in a helper class
 	@Path("cleanupTestRun")
 	@POST
 	@Consumes("application/json")
@@ -161,7 +147,9 @@ public class TestRunnerFacadeResource implements TestRunnerFacade {
 			}
 		}
 	}
-	
+
+	// indirect call of method
+	// since Rest allows only one Json Object per requestbody, the parameters are encapsulated in a helper class
 	@Path("runMethod2")
 	@POST
 	@Produces("application/json")
