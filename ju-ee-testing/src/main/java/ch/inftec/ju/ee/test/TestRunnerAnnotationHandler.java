@@ -31,7 +31,7 @@ import ch.inftec.ju.testing.db.DbTestAnnotationHandler;
 public class TestRunnerAnnotationHandler extends DbTestAnnotationHandler implements Serializable {
 	private final TestRunnerContext context;
 	
-	TestRunnerAnnotationHandler(Method method, Description description, TestRunnerContext context) {
+	public TestRunnerAnnotationHandler(Method method, Description description, TestRunnerContext context) {
 		super(method, description);
 		
 		this.context = context;
