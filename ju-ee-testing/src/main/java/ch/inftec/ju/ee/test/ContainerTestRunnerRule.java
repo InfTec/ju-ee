@@ -116,8 +116,8 @@ public class ContainerTestRunnerRule implements TestRule {
 				
 				// Lookup TestRunnerFacadeBean with JNDI
 				//this.doEvaluation(TestRunnerUtils.getTestRunnerFacade(), this.context);
-			} catch (Throwable t) {
-				throw RemoteUtils.getActualThrowable(t);
+			} catch (Exception ex) {
+				throw SendBackExceptionMapper.reconstructOriginalException(ex);
 			}
 		}
 		

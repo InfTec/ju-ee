@@ -64,7 +64,7 @@ public class RemoteContainerTest {
 			T res = (T) testRunnerFacade.runMethodInEjbContext(className, methodName, parameterTypes, args);
 			return res;
 		} catch (Exception ex) {
-			Throwable actualThrowable = RemoteUtils.getActualThrowable(ex);
+			Throwable actualThrowable = SendBackExceptionMapper.reconstructOriginalException(ex);
 			throw new JuRuntimeException("Couldn't run method in EJB context: %s"
 					, actualThrowable
 					, actualThrowable == null ? null : actualThrowable.getMessage());
