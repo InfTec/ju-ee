@@ -1,13 +1,11 @@
 package ch.inftec.ju.ee.test;
 
-import ch.inftec.ju.ee.test.serialize.MapDeserializer;
-import ch.inftec.ju.ee.test.serialize.MapSerializer;
 import ch.inftec.ju.ee.test.serialize.SystemPropertyTempSetterDeserializer;
 import ch.inftec.ju.ee.test.serialize.SystemPropertyTempSetterSerializer;
-import ch.inftec.ju.ee.test.serialize.TestRunnerAnnotationHandlerDeserializer;
+import ch.inftec.ju.util.JuRuntimeException;
+import ch.inftec.ju.util.JuUtils;
+import ch.inftec.ju.util.PropertyChain;
 import ch.inftec.ju.util.SystemPropertyTempSetter;
-
-import java.util.Map;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
@@ -17,9 +15,11 @@ import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import org.apache.log4j.Logger;
 import org.jboss.resteasy.client.jaxrs.ResteasyClient;
 import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
@@ -27,20 +27,29 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 
 public class RestTestRunnerFacade implements TestRunnerFacade{
-
-	private Logger logger = Logger.getLogger(RestTestRunnerFacade.class);
-	private static final String RESOURCE_APP_PATH = "http://localhost:18080/ju-ee-ear-web/rest/testRunner/";
-	
+	private Logger logger = LoggerFactory.getLogger(RestTestRunnerFacade.class);
+	//private static Logger logger = Logger.getLogger(RestTestRunnerFacade.class);
+	private final String RESOURCE_APP_PATH;
 	private ObjectMapper objectMapper;
 	
+	public RestTestRunnerFacade(ObjectMapper objectMapper, String restUrl){
+		RESOURCE_APP_PATH = restUrl;
+		this.objectMapper=objectMapper;
+	}
+	
+	
 	public RestTestRunnerFacade(){
+
+		RESOURCE_APP_PATH = getUrlStringFromProperties();
+
+		//configure Object Mapper to use custom De/Serilalizer
 		objectMapper = new ObjectMapper();
 		objectMapper.setVisibility(PropertyAccessor.FIELD,Visibility.ANY);
-		
+
 		SimpleModule module = new SimpleModule();
 		module.addDeserializer(SystemPropertyTempSetter.class, new SystemPropertyTempSetterDeserializer());
 		objectMapper.registerModule(module);
-		
+
 		module = new SimpleModule();
 		module.addSerializer(SystemPropertyTempSetter.class, new SystemPropertyTempSetterSerializer());
 		objectMapper.registerModule(module);
@@ -59,7 +68,27 @@ public class RestTestRunnerFacade implements TestRunnerFacade{
 		module.addDeserializer(TestRunnerAnnotationHandler.class, new TestRunnerAnnotationHandlerDeserializer());
 		objectMapper.registerModule(module);
 		*/
+	}
+	
+	private String getUrlStringFromProperties(){
+		
+		 // "http://localhost:8080/servicedb/rest/testRunner/";
 
+		PropertyChain pc = JuUtils.getJuPropertyChain();
+		
+		Integer port = pc.get("ju-util-ee.rest.port", Integer.class, true);
+		Integer portOffset = pc.get("ju-util-ee.portOffset", Integer.class, true);
+		
+		String restResourceLocator = String.format("http://%s:%d/%s/%s/",
+				pc.get("ju-util-ee.rest.host", true),
+				port+portOffset,
+				pc.get("ju-util-ee.rest.contextBase", true),
+				pc.get("ju-util-ee.rest.appName", true)
+			);
+
+		logger.info("Run Container Test via Rest : " + restResourceLocator);
+		
+		return restResourceLocator;
 	}
 	
 	@Override
@@ -128,7 +157,7 @@ public class RestTestRunnerFacade implements TestRunnerFacade{
 		handleResponse(response);
 		
 		}catch(Exception exception){
-			logger.error(exception);
+			logger.error(exception.getMessage());
 		}
 	}
 
