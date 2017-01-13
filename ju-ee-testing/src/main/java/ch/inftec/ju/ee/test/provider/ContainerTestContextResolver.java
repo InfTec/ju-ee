@@ -1,13 +1,9 @@
 package ch.inftec.ju.ee.test.provider;
 
-import java.io.IOException;
-import java.util.Map;
-
-import javax.annotation.Priority;
 import javax.ws.rs.Produces;
 import javax.ws.rs.ext.Provider;
 
-import org.apache.log4j.Logger;
+import org.jboss.logging.Logger;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
 import com.fasterxml.jackson.annotation.PropertyAccessor;

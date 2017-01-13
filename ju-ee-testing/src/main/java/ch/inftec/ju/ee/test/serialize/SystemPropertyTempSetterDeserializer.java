@@ -3,8 +3,6 @@ package ch.inftec.ju.ee.test.serialize;
 import java.io.IOException;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
-
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
 import com.fasterxml.jackson.core.JsonParser;
