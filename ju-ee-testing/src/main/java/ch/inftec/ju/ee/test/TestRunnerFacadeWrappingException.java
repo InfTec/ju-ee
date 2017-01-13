@@ -8,7 +8,7 @@ package ch.inftec.ju.ee.test;
  * @author stefan.andonie@inftec.com
  *
  */
-class TestRunnerFacadeWrappingException extends RuntimeException {
+public class TestRunnerFacadeWrappingException extends RuntimeException {
 	public TestRunnerFacadeWrappingException(Throwable cause) {
 		super(cause);
 	}
