@@ -166,8 +166,50 @@
 <!--             <artifactId>jboss-remote-naming</artifactId> -->
 <!--             <scope>test</scope> -->
 <!--         </dependency> -->
-    </dependencies>
 
+		<!-- REST Client -->
+		<dependency>
+			<groupId>org.jboss.resteasy</groupId>
+			<artifactId>resteasy-jaxrs</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+		    <groupId>org.jboss.resteasy</groupId>
+		    <artifactId>resteasy-client</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		
+		<!-- Additional httpclient for internal us of resteasy client -->
+		<dependency>
+        	<groupId>org.apache.httpcomponents</groupId>
+        	<artifactId>httpclient</artifactId>
+        	<scope>provided</scope>
+    	</dependency>
+		
+		
+		
+		<!-- JSON Object Mapping for consuming/calling Rest services 
+        <dependency>
+          <groupId>org.jboss.resteasy</groupId>
+		  <artifactId>resteasy-jackson-provider</artifactId>
+		  <scope>provided</scope>
+		</dependency>
+		-->
+		
+		<!-- JSON Utilities -->
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.jboss.logging</groupId>
+			<artifactId>jboss-logging</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		
+	</dependencies>
     <build>
         <finalName>${project.artifactId}</finalName>
         <plugins>
