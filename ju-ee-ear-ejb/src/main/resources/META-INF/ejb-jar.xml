@@ -31,13 +31,5 @@
 			<session-type>Stateless</session-type>
 		</session>
 		
-		<!-- Define the TestRunnerFacadeBean to run tests in the JBoss container -->
-		<session>
-			<ejb-name>TestRunnerFacadeBean</ejb-name>
-			<remote>ch.inftec.ju.ee.test.TestRunnerFacade</remote>
-			<ejb-class>ch.inftec.ju.ee.test.TestRunnerFacadeBean</ejb-class>
-			<session-type>Stateless</session-type>
-		</session>
-		
 	</enterprise-beans>
 </ejb-jar>

@@ -19,7 +19,6 @@ import ch.inftec.ju.util.SystemPropertyTempSetter;
  * @author Martin
  *
  */
-@Remote
 public interface TestRunnerFacade {
 	/**
 	 * Gets the version of the TestRunnerFacade.
