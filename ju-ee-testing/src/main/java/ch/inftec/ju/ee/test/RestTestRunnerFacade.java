@@ -7,6 +7,10 @@ import ch.inftec.ju.util.JuUtils;
 import ch.inftec.ju.util.PropertyChain;
 import ch.inftec.ju.util.SystemPropertyTempSetter;
 
+import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
+
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
@@ -15,6 +19,8 @@ import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.apache.commons.lang3.ClassUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.jboss.resteasy.client.jaxrs.ResteasyClient;
 import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
 
@@ -22,9 +28,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
+import com.fasterxml.jackson.core.base.GeneratorBase;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
+
+import java.nio.charset.StandardCharsets.*;
 
 public class RestTestRunnerFacade implements TestRunnerFacade{
 	private Logger logger = LoggerFactory.getLogger(RestTestRunnerFacade.class);
@@ -143,15 +152,15 @@ public class RestTestRunnerFacade implements TestRunnerFacade{
 	@Override
 	public void cleanupTestRun(TestRunnerAnnotationHandler handler, SystemPropertyTempSetter tempSetter) {
 		
-		try{
-		CleanupRestParamEncapsulationObject params = new CleanupRestParamEncapsulationObject();
-		params.handler = handler;
-		params.tempSetter = tempSetter;
-		String jsonString = objectMapper.writeValueAsString(params);
-		logger.info(jsonString);
+		try{		
+		String handlerJson = UTF8encode(objectMapper.writeValueAsString(handler)),
+				tempSetterJson = UTF8encode(objectMapper.writeValueAsString(tempSetter));
+		
 		Client client = ClientBuilder.newClient();
-		WebTarget SimpleResource = client.target(RESOURCE_APP_PATH + "cleanupTestRun");
-		Invocation preTestInvocation = SimpleResource.request(MediaType.APPLICATION_JSON).buildPost(Entity.entity(jsonString, MediaType.APPLICATION_JSON));
+		WebTarget SimpleResource = client.target(RESOURCE_APP_PATH + "cleanupTestRun").
+				queryParam("handler",handlerJson).
+				queryParam("tempSetter",tempSetterJson);
+		Invocation preTestInvocation = SimpleResource.request(MediaType.APPLICATION_JSON).buildGet();
 		logger.info("[cleanupTestRun] invoke Rest request");
 		Response response = preTestInvocation.invoke();
 		handleResponse(response);
@@ -161,6 +170,7 @@ public class RestTestRunnerFacade implements TestRunnerFacade{
 		}
 	}
 
+	/*
 	@Override
 	public Object runMethodInEjbContext(String className, String methodName, Class<?>[] parameterTypes, Object[] args) throws Exception {
 
@@ -169,13 +179,37 @@ public class RestTestRunnerFacade implements TestRunnerFacade{
 		params.methodName = methodName;
 		params.parameterTypes = parameterTypes;
 		params.args = args;
-		String jsonString = objectMapper.writeValueAsString(params);
+		String jsonString = objectMapper.writeValueAsString(params);		
 		Client client = ClientBuilder.newClient();
 		WebTarget SimpleResource = client.target(RESOURCE_APP_PATH + "runMethod2");
 		Invocation preTestInvocation = SimpleResource.request(MediaType.APPLICATION_JSON).buildPost(Entity.entity(jsonString, MediaType.APPLICATION_JSON));
 		logger.info("[runPostTestActionsInEjbContext] invoke Rest request");
 		Response response = preTestInvocation.invoke();
-		return handleResponse(response,Object.class);
+		
+		Class<?> clazz = Class.forName(className).getMethod(methodName,parameterTypes).getReturnType();
+				
+		return handleResponse(response,clazz);
+	}
+	*/
+
+	//approach with Get Request
+	@Override
+	public Object runMethodInEjbContext(String className, String methodName, Class<?>[] parameterTypes, Object[] args) throws Exception {
+		
+		Client client = ClientBuilder.newClient();
+		WebTarget SimpleResource = client.target(RESOURCE_APP_PATH + "runMethod2").
+				queryParam("className", UTF8encode(className)).
+				queryParam("methodName",UTF8encode( methodName)).
+				queryParam("parameterTypes", UTF8encode(objectMapper.writeValueAsString(parameterTypes))).
+				queryParam("args", UTF8encode(objectMapper.writeValueAsString(args)));
+		
+		Invocation preTestInvocation = SimpleResource.request(MediaType.APPLICATION_JSON).buildGet();
+		logger.info("[runPostTestActionsInEjbContext] invoke Rest request");
+		Response response = preTestInvocation.invoke();
+		
+		Class<?> clazz = Class.forName(className).getMethod(methodName,parameterTypes).getReturnType();
+				
+		return handleResponse(response,clazz);
 	}
 	
 	// check response when no return value is expected
@@ -198,10 +232,27 @@ public class RestTestRunnerFacade implements TestRunnerFacade{
 		if(status < 300 ){
 				logger.info("Response OK : " + status);
 				
-				String jsonString = response.readEntity(String.class);
-				logger.info(jsonString);
-				T obj = objectMapper.readValue(jsonString, objClass);
-				return obj;
+				/*
+				if( ClassUtils.isPrimitiveOrWrapper(objClass))
+					return response.readEntity(objClass);
+				
+				if( objClass == String.class)
+					return (T) response.readEntity(String.class);
+				 */
+				
+				
+				// only use custom objectmapper if we expect our special helper classes
+				if(	objClass == SystemPropertyTempSetter.class    ||
+					objClass == TestRunnerAnnotationHandler.class
+				){
+					String jsonString =  response.readEntity(String.class);
+					T obj = objectMapper.readValue(jsonString, objClass);
+					return obj;
+				}
+
+				// Should be Ok if we deal with serializable Objects
+				return response.readEntity(objClass);
+
 		}
 		
 		getExceptionFromResponse(response);
@@ -225,5 +276,9 @@ public class RestTestRunnerFacade implements TestRunnerFacade{
 			throw new Exception(exceptionAsString);
 
 		}
+	}
+	
+	private String UTF8encode(String str) throws UnsupportedEncodingException{
+		return new String(str.getBytes(),"UTF_8");
 	}
 }

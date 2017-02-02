@@ -16,7 +16,7 @@ public class RunMethodRestParamEncapsulationObject {
 	
 	public String className, methodName;
 	public Class<?>[] parameterTypes;
-	Object[] args;
+	public Object[] args;
 	
 	public RunMethodRestParamEncapsulationObject(){}
 }

@@ -10,7 +10,9 @@ import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 
+import ch.inftec.ju.ee.test.RunMethodRestParamEncapsulationObject;
 import ch.inftec.ju.ee.test.TestRunnerAnnotationHandler;
+import ch.inftec.ju.ee.test.serialize.RunMethodRestParamEncapsulationObjectDeserializer;
 import ch.inftec.ju.ee.test.serialize.SystemPropertyTempSetterDeserializer;
 import ch.inftec.ju.ee.test.serialize.SystemPropertyTempSetterSerializer;
 import ch.inftec.ju.ee.test.serialize.TestRunnerAnnotationHandlerDeserializer;
@@ -43,6 +45,12 @@ public class ContainerTestContextResolver implements ContextResolver<ObjectMappe
 		module = new SimpleModule();
 		module.addDeserializer(TestRunnerAnnotationHandler.class, new TestRunnerAnnotationHandlerDeserializer());
 		objectMapper.registerModule(module);
+		
+		/*
+		module = new SimpleModule();
+		module.addDeserializer(RunMethodRestParamEncapsulationObject.class, new RunMethodRestParamEncapsulationObjectDeserializer());
+		objectMapper.registerModule(module);
+		*/
     }
 
     public ObjectMapper getContext(Class<?> objectType) {
