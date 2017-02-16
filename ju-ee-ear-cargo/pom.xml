@@ -255,7 +255,7 @@
 								<type>standalone</type>
 								<!-- <home>${project.build.directory}/cargo/configurations/jboss71x</home>  --><!-- See https://svn.java.net/svn/mojarra~svn/trunk/test/pom.xml for explicit values examples-->
 								<properties>
-<!-- 									<cargo.port.offset>${ju-util-ee.portOffset}</cargo.port.offset> Offset port as the default settings cause problems on Jenkins CI environment -->
+									<cargo.port.offset>${ju-util-ee.portOffset}</cargo.port.offset> <!-- Offset port as the default settings cause problems on Jenkins CI environment -->
 <!-- 									<cargo.hornetq.dirPrefix>${ju.ee.jboss.hornetqDirPrefix}</cargo.hornetq.dirPrefix> -->
 <!-- 									<cargo.logging>high</cargo.logging> -->
 									<cargo.jboss.configuration>standalone-full</cargo.jboss.configuration>
@@ -324,7 +324,7 @@
 									<artifactId>ju-ee-ear</artifactId>
 									<type>ear</type>
 									<!-- Don't forget to change the following to your apps URL -->
-									<pingURL>http://localhost:8080/ju-ee-ear-web</pingURL>
+									<pingURL>http://localhost:18080/ju-ee-ear-web</pingURL>
 									<!-- This is the default; make larger if required -->
 									<pingTimeout>20000</pingTimeout>
 								</deployable>
