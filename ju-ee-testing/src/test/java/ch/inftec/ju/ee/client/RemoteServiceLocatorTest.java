@@ -151,7 +151,7 @@ public class RemoteServiceLocatorTest {
 		Properties clientProp = new Properties();
 		clientProp.put("remote.connectionprovider.create.options.org.xnio.Options.SSL_ENABLED", "false");
 		clientProp.put("remote.connections", "default");
-		clientProp.put("remote.connection.default.port", "8080");
+		clientProp.put("remote.connection.default.port", "18080");
 		clientProp.put("remote.connection.default.host", "localhost");
 //		clientProp.put("remote.connection.default.username", "ejbUser");
 //		clientProp.put("remote.connection.default.password", "ejbPassword");
@@ -185,7 +185,7 @@ public class RemoteServiceLocatorTest {
 		
 		Properties jndiProps = new Properties();
 		jndiProps.put(Context.INITIAL_CONTEXT_FACTORY, "org.jboss.naming.remote.client.InitialContextFactory");
-		jndiProps.put(Context.PROVIDER_URL, "remote://localhost:4447");
+		jndiProps.put(Context.PROVIDER_URL, "remote://localhost:14447");
 		// jndiProps.put("remote.connection.default.port", "8080");
 		// create a context passing these properties
 		Context ctx = new InitialContext(jndiProps);
@@ -201,7 +201,7 @@ public class RemoteServiceLocatorTest {
 	@Test
 	public void canLookup_testFacadeBean_usingServiceLocatorBuilder() throws Exception {
 		JndiServiceLocator loc = ServiceLocatorBuilder.buildRemote()
-				.remoteServer("localhost", 8080)
+				.remoteServer("localhost", 18080)
 				.appName("")
 				.moduleName("test")
 			.createServiceLocator();

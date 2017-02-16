@@ -20,7 +20,11 @@
     <container qualifier="widlfly-managed" default="true">
         <configuration>
             <property name="jbossHome">${jbossHome:target/wildfly-10.0.0.Final}</property>
-            <property name="javaHome">${javaHome:C:\Program Files\Java\jre8}</property>
+            <property name="javaHome">${javaHome:C:\Program Files\Java\jdk1.8.0_112}</property>
+            
+            <!-- Use port offset to avoid problems on build servers -->
+            <property name="javaVmArguments">-Djboss.socket.binding.port-offset=10000</property>
+            <property name="managementPort">19990</property>
         </configuration>
     </container>
 
