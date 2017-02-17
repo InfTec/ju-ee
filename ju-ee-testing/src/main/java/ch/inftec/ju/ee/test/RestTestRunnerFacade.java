@@ -9,6 +9,7 @@ import ch.inftec.ju.util.SystemPropertyTempSetter;
 
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.nio.charset.Charset;
 
 import javax.ws.rs.client.Client;
@@ -95,14 +96,14 @@ public class RestTestRunnerFacade implements TestRunnerFacade{
 				pc.get("ju-util-ee.rest.appName", true)
 			);
 
-		logger.info("Run Container Test via Rest : " + restResourceLocator);
+		logger.debug("Run Container Test via Rest : " + restResourceLocator);
 		
 		return restResourceLocator;
 	}
 	
 	@Override
 	public String getVersion() {
-		logger.info("return version");
+		logger.debug("return version");
 		
 		ResteasyClient client = new ResteasyClientBuilder().build();
 		WebTarget versionResource = client.target(RESOURCE_APP_PATH + "version");
@@ -120,7 +121,7 @@ public class RestTestRunnerFacade implements TestRunnerFacade{
 		//ResteasyClient client = new ResteasyClientBuilder().build();
 		WebTarget SimpleResource = client.target(RESOURCE_APP_PATH + "preTestActions");
 		Invocation preTestInvocation = SimpleResource.request(MediaType.APPLICATION_JSON).buildPost(Entity.entity(jsonString, MediaType.APPLICATION_JSON));
-		logger.info("[preTestActions] invoke Rest request");
+		logger.debug("[preTestActions] invoke Rest request");
 		Response response = preTestInvocation.invoke();
 		SystemPropertyTempSetter tempSetter = handleResponse(response, SystemPropertyTempSetter.class);
 		return tempSetter;
@@ -133,7 +134,7 @@ public class RestTestRunnerFacade implements TestRunnerFacade{
 		Client client = ClientBuilder.newClient();
 		WebTarget SimpleResource = client.target(RESOURCE_APP_PATH + "runMethodinEjb");
 		Invocation preTestInvocation = SimpleResource.request(MediaType.APPLICATION_JSON).buildPost(Entity.entity(jsonString, MediaType.APPLICATION_JSON));
-		logger.info("[runTestMethodInEjbContext] invoke Rest request");
+		logger.debug("[runTestMethodInEjbContext] invoke Rest request");
 		Response response = preTestInvocation.invoke();
 		handleResponse(response);
 	}
@@ -144,7 +145,7 @@ public class RestTestRunnerFacade implements TestRunnerFacade{
 		Client client = ClientBuilder.newClient();
 		WebTarget SimpleResource = client.target(RESOURCE_APP_PATH + "postTestActions");
 		Invocation preTestInvocation = SimpleResource.request(MediaType.APPLICATION_JSON).buildPost(Entity.entity(jsonString, MediaType.APPLICATION_JSON));
-		logger.info("[runPostTestActionsInEjbContext] invoke Rest request");
+		logger.debug("[runPostTestActionsInEjbContext] invoke Rest request");
 		Response response = preTestInvocation.invoke();
 		handleResponse(response);		
 	}
@@ -161,12 +162,12 @@ public class RestTestRunnerFacade implements TestRunnerFacade{
 				queryParam("handler",handlerJson).
 				queryParam("tempSetter",tempSetterJson);
 		Invocation preTestInvocation = SimpleResource.request(MediaType.APPLICATION_JSON).buildGet();
-		logger.info("[cleanupTestRun] invoke Rest request");
+		logger.debug("[cleanupTestRun] invoke Rest request");
 		Response response = preTestInvocation.invoke();
 		handleResponse(response);
 		
-		}catch(Exception exception){
-			logger.error(exception.getMessage());
+		}catch(Exception ex){
+			logger.error("Cleanup of test run failed", ex);
 		}
 	}
 
@@ -204,7 +205,7 @@ public class RestTestRunnerFacade implements TestRunnerFacade{
 				queryParam("args", UTF8encode(objectMapper.writeValueAsString(args)));
 		
 		Invocation preTestInvocation = SimpleResource.request(MediaType.APPLICATION_JSON).buildGet();
-		logger.info("[runPostTestActionsInEjbContext] invoke Rest request");
+		logger.debug("[runPostTestActionsInEjbContext] invoke Rest request");
 		Response response = preTestInvocation.invoke();
 		
 		Class<?> clazz = Class.forName(className).getMethod(methodName,parameterTypes).getReturnType();
@@ -217,7 +218,7 @@ public class RestTestRunnerFacade implements TestRunnerFacade{
 		
 		int status = response.getStatus();
 		if(status < 300 ){
-			logger.info("Response OK : " + status);
+			logger.debug("Response OK : " + status);
 		}else{
 			getExceptionFromResponse(response);
 		}
@@ -264,11 +265,12 @@ public class RestTestRunnerFacade implements TestRunnerFacade{
 				
 		// Try to find reason for error		
 		int status = response.getStatus();
-		logger.info("Response Code : " + status);
+		
+		logger.error("Request failed with error code: " + status);
 
 		// reconstruct the exception
 		if(status >= 500){
-			logger.info("Internal Server error");
+			logger.error("Internal Server error");
 			
 			// Retrieve the Stacktrace as String from the response body
 			// The Stacktrace can be used to reconstruct the exception
@@ -278,7 +280,7 @@ public class RestTestRunnerFacade implements TestRunnerFacade{
 		}
 	}
 	
-	private String UTF8encode(String str) throws UnsupportedEncodingException{
-		return new String(str.getBytes(),"UTF_8");
+	private String UTF8encode(String str) throws UnsupportedEncodingException {
+		return URLEncoder.encode(str, "UTF-8");
 	}
 }

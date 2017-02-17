@@ -26,15 +26,4 @@ public class TestRunnerUtils {
 		}
 		return remoteServiceLocator;
 	}
-	
-	/**
-	 * Looks up a TestRunnerFacade using a remote JNDI service locator, configured by JU property files.
-	 * @return TestRunnerFacade instance
-	 */
-	public static synchronized TestRunnerFacade getTestRunnerFacade() {
-		if (testRunnerFacade == null) {
-			testRunnerFacade = getRemoteServiceLocator().lookup(TestRunnerFacade.class);
-		}
-		return testRunnerFacade;
-	}
 }

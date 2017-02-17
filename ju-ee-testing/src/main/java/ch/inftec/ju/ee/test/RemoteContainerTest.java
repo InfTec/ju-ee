@@ -31,7 +31,7 @@ public class RemoteContainerTest {
     @Before
     public void init() {
     	this.serviceLocator = TestRunnerUtils.getRemoteServiceLocator();
-    	this.testRunnerFacade = TestRunnerUtils.getTestRunnerFacade();
+    	this.testRunnerFacade = new RestTestRunnerFacade();
     }
     
     /**
