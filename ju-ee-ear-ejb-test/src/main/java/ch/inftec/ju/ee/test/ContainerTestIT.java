@@ -110,15 +110,15 @@ public class ContainerTestIT extends ContainerTest {
 		TestingEntityRepo repo = this.serviceLocator.cdi(TestingEntityRepo.class);
 		TestingEntity te = repo.findOne(1L);
 		te.setName("First Change...");
-		this.txHandler.commit(true);
+		getTransactionHandler().commitAndStartNewTransaction();
 		
 		te = repo.findOne(1L);
 		te.setName("Second Change...");
-		this.txHandler.commit(true);
+		getTransactionHandler().commitAndStartNewTransaction();
 		
 		te = repo.findOne(1L);
 		te.setName("Third Change...");
-		this.txHandler.rollbackIfNotCommitted();
+		getTransactionHandler().commitAndStartNewTransaction();
 	}
 	public static class Transaction_canBeController_usingTxHandler extends DataVerifierCdi {
 		@Override

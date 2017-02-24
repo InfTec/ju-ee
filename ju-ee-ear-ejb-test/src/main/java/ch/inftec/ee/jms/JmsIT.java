@@ -20,7 +20,7 @@ public class JmsIT extends ContainerTest {
 		JmsSenderBean sender = this.serviceLocator.cdi(JmsSenderBean.class);
 		sender.send("canSendMessage");
 		
-		this.txHandler.commit();
+		getTransactionHandler().commitAndStartNewTransaction();
 		
 		List<String> messages = JmsTester.waitAndGet(1);
 		Assert.assertEquals("canSendMessage", messages.get(0));

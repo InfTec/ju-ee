@@ -67,7 +67,7 @@ public abstract class ContainerTest
     /**
      * TxHandler that can be used to control the DB transaction.
      */
-    protected TxHandler txHandler;
+    private TxHandler txHandler;
     
     /**
      * ServiceLocator instance that can be used to lookup JNDI or CDI objects on the server.
@@ -84,6 +84,27 @@ public abstract class ContainerTest
 	@Override
 	public void setTxHandler(TxHandler txHandler) {
 		this.txHandler = txHandler;
+	}
+	
+	protected ContainerTestTransactionHandler getTransactionHandler() {
+		return new ContainerTestTransactionHandler() {
+			
+			@Override
+			public void rollbackIfNotCommittedWithoutStartingNewTransaction() {
+				txHandler.rollbackIfNotCommitted();
+			}
+			
+			@Override
+			public void rollbackIfNotCommittedAndStartNewTransaction() {
+				txHandler.rollbackIfNotCommitted();
+				txHandler.begin();
+			}
+			
+			@Override
+			public void commitAndStartNewTransaction() {
+				txHandler.commit(true);
+			}
+		};
 	}
 	
 	@Override
