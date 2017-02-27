@@ -8,7 +8,7 @@ import ch.inftec.ju.testing.db.DataSet;
 import ch.inftec.ju.testing.db.DataSetExport;
 import ch.inftec.ju.util.DataHolder;
 
-//@Ignore("TODO: Fix for REST: Problem with remote method invocation with Long parameter")
+@Ignore("TODO: Fix for REST: Problem with remote method invocation with Long parameter")
 public class TransactionsIT extends RemoteContainerTesterTest {
 	@Override
 	protected Class<?> getTesterClass() {

@@ -118,7 +118,7 @@ public class ContainerTestIT extends ContainerTest {
 		
 		te = repo.findOne(1L);
 		te.setName("Third Change...");
-		getTransactionHandler().commitAndStartNewTransaction();
+		getTransactionHandler().rollbackIfNotCommittedWithoutStartingNewTransaction();
 	}
 	public static class Transaction_canBeController_usingTxHandler extends DataVerifierCdi {
 		@Override
