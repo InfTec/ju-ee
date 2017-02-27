@@ -7,7 +7,7 @@ import ch.inftec.ju.util.SystemPropertyTempSetter;
  * @author stefan.andonie@inftec.com
  *
  * Encapsulate all parameters of TestRunnerFacade method
- * 		public Object runMethodInEjbContext(String className, String methodName, Class<?>[] parameterTypes, Object[] args)
+ * 		public Object runMethodInEjbContext(String className, String methodName, Class&lt;?&gt;[] parameterTypes, Object[] args)
  * 
  * in a object since Rest allows only one Json object in the response body
  * 

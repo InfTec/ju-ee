@@ -12,9 +12,9 @@ import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 
 /**
- * 
+ * Simple way to serialize a Map&lt;String,String&gt;
+ *  
  * @author stefan.andonie@inftec.com
- * Simple way to serialize a Map<String,String>
  */
 public class MapSerializer extends JsonSerializer<Map<String,String>> {
 	

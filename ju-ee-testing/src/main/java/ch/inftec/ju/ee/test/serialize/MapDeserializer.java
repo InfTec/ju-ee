@@ -15,9 +15,10 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 
 /**
+ *
+ * Simple way to deserialize a Map&lt;String,String&gt;
  * 
  * @author stefan.andonie@inftec.com
- * Simple way to deserialize a Map<String,String>
  */
 public class MapDeserializer extends JsonDeserializer<Map<String,String>>{
 	
