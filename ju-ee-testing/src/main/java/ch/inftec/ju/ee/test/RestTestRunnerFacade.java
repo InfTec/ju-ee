@@ -267,7 +267,7 @@ public class RestTestRunnerFacade implements TestRunnerFacade{
 		int status = response.getStatus();
 		
 		logger.error("Request failed with error code: " + status);
-
+		
 		// reconstruct the exception
 		if(status >= 500){
 			logger.error("Internal Server error");
@@ -276,8 +276,18 @@ public class RestTestRunnerFacade implements TestRunnerFacade{
 			// The Stacktrace can be used to reconstruct the exception
 			String exceptionAsString = response.readEntity(String.class);
 			throw new Exception(exceptionAsString);
-
+		} else {
+			throw new Exception("Couldn't run remote test: " + getResponseContents(response));
 		}
+	}
+	
+	private String getResponseContents(Response response) {
+		try {
+			return response.readEntity(String.class);
+		} catch (Exception ex) {
+			return "Couldn't read response: " + ex.getMessage();
+		}
+		
 	}
 	
 	private String UTF8encode(String str) throws UnsupportedEncodingException {

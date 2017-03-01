@@ -14,7 +14,6 @@ import ch.inftec.ju.ee.client.ServiceLocatorBuilder;
  */
 public class TestRunnerUtils {
 	private static JndiServiceLocator remoteServiceLocator;
-	private static TestRunnerFacade testRunnerFacade;
 	
 	/**
 	 * Gets an instance of a remote JndiServiceLocator, configured by JU property files.
