@@ -1,5 +1,9 @@
 package ch.inftec.ju.ee.test;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.nullValue;
+import static org.junit.Assert.assertThat;
+
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -26,5 +30,27 @@ public class RemoteContainerTestIT extends RemoteContainerTesterTest {
 		return this.callRemoteMethod("getTestingEntityName"
 				, new Class<?>[] {Long.class}
 				, new Object[] {id});
+	}
+	
+	@Test
+	public void canRunParameterlessMethodInEjbContext() {
+		assertThat(remoteGetConstValue(), is("Some Const Value"));
+	}
+	
+	private String remoteGetConstValue() {
+		return this.callRemoteMethod("getConstValue"
+				, null
+				, null);
+	}
+	
+	@Test
+	public void canRunVoidMethodInEjbContext() {
+		assertThat(remoteGetVoid(), is(nullValue()));
+	}
+	
+	private String remoteGetVoid() {
+		return this.callRemoteMethod("getVoid"
+				, null
+				, null);
 	}
 }

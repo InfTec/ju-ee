@@ -19,6 +19,13 @@ public class RemoteContainerTestITTester extends RemoteContainerTester {
 		TestingEntity te = this.testingEntityRepo.findOne(id);
 		return te == null ? null : te.getName();
 	}
+	
+	public String getConstValue() {
+		return "Some Const Value";
+	}
+	
+	public void getVoid() {
+	}
 //	
 //	public Long getTestingEntityId(String name) {
 //		TestingEntity te = this.testingEntityRepo.getByName(name);
