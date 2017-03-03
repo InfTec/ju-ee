@@ -275,7 +275,7 @@ public class RestTestRunnerFacade implements TestRunnerFacade{
 			// Retrieve the Stacktrace as String from the response body
 			// The Stacktrace can be used to reconstruct the exception
 			String exceptionAsString = response.readEntity(String.class);
-			throw new Exception("Got HTTP response 500: " + exceptionAsString);
+			throw new Exception(exceptionAsString);
 		} else {
 			throw new Exception("Couldn't run remote test: " + getResponseContents(response));
 		}
