@@ -46,10 +46,14 @@ class JsonParameterHandler {
 	}
 	
 	private Object[] allignWithTypes(Object[] args) {
-		Object[] alligned = new Object[args.length];
+		int length = args == null
+				? 0
+				: args.length;
+		
+		Object[] alligned = new Object[length];
 		Class<?>[] expectedTypes = getParameterTypes();
 		
-		for (int i = 0; i < args.length; i++) {
+		for (int i = 0; i < length; i++) {
 			Object obj = args[i];
 			alligned[i] = align(obj, expectedTypes[i]);
 		}
