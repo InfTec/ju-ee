@@ -229,19 +229,12 @@ public class TestRunnerFacadeResource implements TestRunnerFacade {
 			@QueryParam("parameterTypes") String parameterTypesJson, 
 			@QueryParam("args") String argsJson
 	) throws Exception {
-		ObjectMapper objectMapper = new ObjectMapper();
-		Class<?>[] parameterTypes = objectMapper.readValue(parameterTypesJson, Class[].class);
-		String[] argString = objectMapper.readValue(argsJson, String[].class);
-		
-		int len = argString == null 
-				? 0 
-				: argString.length;
-		Object[] args = new Object[len];
-		for (int i = 0; i < len; i++) {
-			args[i] = objectMapper.readValue(argString[i], parameterTypes[i]);
-		}
-		
-		return runMethodInEjbContext(className,methodName,parameterTypes,args);
+		JsonParameterHandler jsonParameterHandler = new JsonParameterHandler(parameterTypesJson, argsJson);
+		return runMethodInEjbContext(
+				className
+				, methodName
+				, jsonParameterHandler.getParameterTypes()
+				, jsonParameterHandler.getParameterValues());
 	}
 	
 	@Override

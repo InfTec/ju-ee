@@ -40,44 +40,10 @@ public class RestTestRunnerFacade implements TestRunnerFacade{
 	private Logger logger = LoggerFactory.getLogger(RestTestRunnerFacade.class);
 	//private static Logger logger = Logger.getLogger(RestTestRunnerFacade.class);
 	private final String RESOURCE_APP_PATH;
-	private ObjectMapper objectMapper;
-	
-	public RestTestRunnerFacade(ObjectMapper objectMapper, String restUrl){
-		RESOURCE_APP_PATH = restUrl;
-		this.objectMapper=objectMapper;
-	}
-	
+	private JsonParameterSerializer jsonParameterSerializer = new JsonParameterSerializer();
 	
 	public RestTestRunnerFacade(){
-
 		RESOURCE_APP_PATH = getUrlStringFromProperties();
-
-		//configure Object Mapper to use custom De/Serilalizer
-		objectMapper = new ObjectMapper();
-		objectMapper.setVisibility(PropertyAccessor.FIELD,Visibility.ANY);
-
-		SimpleModule module = new SimpleModule();
-		module.addDeserializer(SystemPropertyTempSetter.class, new SystemPropertyTempSetterDeserializer());
-		objectMapper.registerModule(module);
-
-		module = new SimpleModule();
-		module.addSerializer(SystemPropertyTempSetter.class, new SystemPropertyTempSetterSerializer());
-		objectMapper.registerModule(module);
-		
-		/*
-		SimpleModule module = new SimpleModule();
-		module.addDeserializer((Class<Map<String,String>>)(Class)Map.class, new MapDeserializer());
-		objectMapper.registerModule(module);
-		
-		module = new SimpleModule();
-		module.addSerializer((Class<Map<String,String>>)(Class)Map.class, new MapSerializer());
-		objectMapper.registerModule(module);
-		*/
-		/*
-		module = new SimpleModule();
-		module.addDeserializer(TestRunnerAnnotationHandler.class, new TestRunnerAnnotationHandlerDeserializer());
-		objectMapper.registerModule(module);
-		*/
 	}
 	
 	private String getUrlStringFromProperties(){
@@ -115,8 +81,7 @@ public class RestTestRunnerFacade implements TestRunnerFacade{
 
 	@Override
 	public SystemPropertyTempSetter runPreTestActionsInEjbContext(TestRunnerAnnotationHandler handler) throws Exception {
-		
-		String jsonString = objectMapper.writeValueAsString(handler);		
+		String jsonString = jsonParameterSerializer.toJsonString(handler);		
 		Client client = ClientBuilder.newClient();
 		//ResteasyClient client = new ResteasyClientBuilder().build();
 		WebTarget SimpleResource = client.target(RESOURCE_APP_PATH + "preTestActions");
@@ -130,7 +95,7 @@ public class RestTestRunnerFacade implements TestRunnerFacade{
 	@Override
 	public void runTestMethodInEjbContext(TestRunnerAnnotationHandler handler) throws Exception {
 		
-		String jsonString = objectMapper.writeValueAsString(handler);
+		String jsonString = jsonParameterSerializer.toJsonString(handler);
 		Client client = ClientBuilder.newClient();
 		WebTarget SimpleResource = client.target(RESOURCE_APP_PATH + "runMethodinEjb");
 		Invocation preTestInvocation = SimpleResource.request(MediaType.APPLICATION_JSON).buildPost(Entity.entity(jsonString, MediaType.APPLICATION_JSON));
@@ -141,7 +106,7 @@ public class RestTestRunnerFacade implements TestRunnerFacade{
 
 	@Override
 	public void runPostTestActionsInEjbContext(TestRunnerAnnotationHandler handler) throws Exception {
-		String jsonString = objectMapper.writeValueAsString(handler);
+		String jsonString = jsonParameterSerializer.toJsonString(handler);
 		Client client = ClientBuilder.newClient();
 		WebTarget SimpleResource = client.target(RESOURCE_APP_PATH + "postTestActions");
 		Invocation preTestInvocation = SimpleResource.request(MediaType.APPLICATION_JSON).buildPost(Entity.entity(jsonString, MediaType.APPLICATION_JSON));
@@ -154,8 +119,8 @@ public class RestTestRunnerFacade implements TestRunnerFacade{
 	public void cleanupTestRun(TestRunnerAnnotationHandler handler, SystemPropertyTempSetter tempSetter) {
 		
 		try{		
-		String handlerJson = UTF8encode(objectMapper.writeValueAsString(handler)),
-				tempSetterJson = UTF8encode(objectMapper.writeValueAsString(tempSetter));
+		String handlerJson = jsonParameterSerializer.toEncodedJsonString(handler),
+				tempSetterJson = jsonParameterSerializer.toEncodedJsonString(tempSetter);
 		
 		Client client = ClientBuilder.newClient();
 		WebTarget SimpleResource = client.target(RESOURCE_APP_PATH + "cleanupTestRun").
@@ -201,8 +166,8 @@ public class RestTestRunnerFacade implements TestRunnerFacade{
 		WebTarget SimpleResource = client.target(RESOURCE_APP_PATH + "runMethod2").
 				queryParam("className", UTF8encode(className)).
 				queryParam("methodName",UTF8encode( methodName)).
-				queryParam("parameterTypes", UTF8encode(objectMapper.writeValueAsString(parameterTypes))).
-				queryParam("args", UTF8encode(objectMapper.writeValueAsString(args)));
+				queryParam("parameterTypes", jsonParameterSerializer.toEncodedJsonString(parameterTypes)).
+				queryParam("args", jsonParameterSerializer.toEncodedJsonString(args));
 		
 		Invocation preTestInvocation = SimpleResource.request(MediaType.APPLICATION_JSON).buildGet();
 		logger.debug("[runPostTestActionsInEjbContext] invoke Rest request");
@@ -247,7 +212,7 @@ public class RestTestRunnerFacade implements TestRunnerFacade{
 					objClass == TestRunnerAnnotationHandler.class
 				){
 					String jsonString =  response.readEntity(String.class);
-					T obj = objectMapper.readValue(jsonString, objClass);
+					T obj = jsonParameterSerializer.toObject(jsonString, objClass);
 					return obj;
 				}
 

@@ -107,7 +107,7 @@ public class TransactionsIT extends RemoteContainerTesterTest {
 			};
 		}).start();
 		
-		Assert.assertTrue(ex1.waitForValue(10000).getMessage().endsWith("Rolling back: 1"));
+		Assert.assertTrue(ex1.waitForValue(10000).getMessage().contains("Rolling back: 1"));
 		this.remoteSendSignal(5);
 		
 		Assert.assertEquals("T2", this.remoteGetTestingEntityName(id2.waitForValue(10000)));
