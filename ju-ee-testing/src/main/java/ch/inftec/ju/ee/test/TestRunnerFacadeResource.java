@@ -4,6 +4,7 @@ import java.lang.reflect.Method;
 
 import javax.ejb.Stateless;
 import javax.ejb.TransactionManagement;
+import javax.ejb.TransactionManagementType;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.transaction.UserTransaction;
@@ -25,7 +26,6 @@ import ch.inftec.ju.ee.test.TestRunnerAnnotationHandler.ContainerTestContextSett
 import ch.inftec.ju.ee.test.provider.ContainerTestContextResolver;
 import ch.inftec.ju.util.JuUtils;
 import ch.inftec.ju.util.SystemPropertyTempSetter;
-import javax.ejb.TransactionManagementType;
 
 @Stateless
 @TransactionManagement(TransactionManagementType.BEAN)

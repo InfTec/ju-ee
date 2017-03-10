@@ -1,6 +1,7 @@
 package ch.inftec.ju.ee.test;
 
 import java.net.URLEncoder;
+import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
@@ -61,5 +62,9 @@ public class JsonParameterSerializer {
 		} catch (Exception ex) {
 			throw new JuRuntimeException(String.format("Couldn't convert JSON to object: %s [type: %s]", jsonString, type));
 		}
+	}
+	
+	public <T> T toObject(Map<?, ?> serializedObject, Class<T> type) {
+		return objectMapper.convertValue(serializedObject, type);
 	}
 }
