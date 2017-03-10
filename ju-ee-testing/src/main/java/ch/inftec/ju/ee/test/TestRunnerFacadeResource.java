@@ -239,16 +239,8 @@ public class TestRunnerFacadeResource implements TestRunnerFacade {
 	
 	@Override
 	public Object runMethodInEjbContext(String className,String methodName,Class<?>[] parameterTypes, Object[] args) throws Exception {
-
-		// Simple case where Long was deserialized as Integer
-		for(int i=0;i < args.length;i++)
-		if(parameterTypes[i] != args[i].getClass()){
-			if(args[i].getClass() == Integer.class && parameterTypes[i] == Long.class){
-				args[i] = new Long((Integer) args[i]);
-			}
-		}
-		
 		logger.info("run Test Method in EJB Context version 2");
+		
 		try (TxHandler txHandler = new TxHandler(this.tx, true)) {
 			Class<?> clazz = Class.forName(className);
 			Object instance = clazz.newInstance();
