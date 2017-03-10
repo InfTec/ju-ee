@@ -204,4 +204,33 @@ public class JsonParameterHandlerTest {
 		Date readDate = (Date) values[0];
 		assertThat(readDate, is(equalTo(date)));
 	}
+	
+	private static class MyTypeWithReadOnly {
+		private String val;
+		
+		@SuppressWarnings("unused")
+		public String getReadOnlyVal() {
+			return "foo";
+		}
+	}
+	
+	@Test
+	public void customTypeWithReadOnlyField_canBeParsed() {
+		String parameterTypes = getParameterTypesJson(MyTypeWithReadOnly.class);
+		
+		MyTypeWithReadOnly myType = new MyTypeWithReadOnly();
+		myType.val = "hello";
+		
+		String argJson = toJson(myType);
+		
+		JsonParameterHandler handler = new JsonParameterHandler(parameterTypes, argJson);
+		
+		Object[] values = handler.getParameterValues();
+		
+		assertThat(values.length, is(1));
+		assertThat(values[0] instanceof MyTypeWithReadOnly, is(true));
+		
+		MyTypeWithReadOnly readType = (MyTypeWithReadOnly) values[0];
+		assertThat(readType.val, is("hello"));
+	}
 }
