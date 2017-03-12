@@ -1,16 +1,7 @@
 package ch.inftec.ju.ee.test;
 
-import ch.inftec.ju.ee.test.serialize.SystemPropertyTempSetterDeserializer;
-import ch.inftec.ju.ee.test.serialize.SystemPropertyTempSetterSerializer;
-import ch.inftec.ju.util.JuRuntimeException;
-import ch.inftec.ju.util.JuUtils;
-import ch.inftec.ju.util.PropertyChain;
-import ch.inftec.ju.util.SystemPropertyTempSetter;
-
-import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.nio.charset.Charset;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
@@ -19,22 +10,17 @@ import javax.ws.rs.client.Invocation;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriBuilder;
 
 import org.apache.commons.lang3.ClassUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.jboss.resteasy.client.jaxrs.ResteasyClient;
 import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
-import com.fasterxml.jackson.core.base.GeneratorBase;
-import com.fasterxml.jackson.annotation.PropertyAccessor;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.module.SimpleModule;
-
-import java.nio.charset.StandardCharsets.*;
+import ch.inftec.ju.util.JuUtils;
+import ch.inftec.ju.util.PropertyChain;
+import ch.inftec.ju.util.SystemPropertyTempSetter;
 
 public class RestTestRunnerFacade implements TestRunnerFacade{
 	private Logger logger = LoggerFactory.getLogger(RestTestRunnerFacade.class);
@@ -161,17 +147,22 @@ public class RestTestRunnerFacade implements TestRunnerFacade{
 	//approach with Get Request
 	@Override
 	public Object runMethodInEjbContext(String className, String methodName, Class<?>[] parameterTypes, Object[] args) throws Exception {
+//		UriBuilder.fromUri(RESOURCE_APP_PATH + "runMethod2?className={val}&methodName={val}&parameterTypes={val}&args={val}")
+//			.buildFromEncoded(className, methodName, parameterTypes, args);
+		
 		
 		Client client = ClientBuilder.newClient();
-		WebTarget SimpleResource = client.target(RESOURCE_APP_PATH + "runMethod2").
+		WebTarget simpleResource = client.target(RESOURCE_APP_PATH + "runMethod2").
 				queryParam("className", UTF8encode(className)).
 				queryParam("methodName",UTF8encode( methodName)).
-				queryParam("parameterTypes", jsonParameterSerializer.toEncodedJsonString(parameterTypes)).
+				queryParam("parameterTypes", jsonParameterSerializer.toJsonString(parameterTypes)).
 				queryParam("args", jsonParameterSerializer.toEncodedJsonString(args));
 		
-		Invocation preTestInvocation = SimpleResource.request(MediaType.APPLICATION_JSON).buildGet();
+		Invocation preTestInvocation = simpleResource.request(MediaType.APPLICATION_JSON).buildGet();
 		logger.debug("[runPostTestActionsInEjbContext] invoke Rest request");
 		Response response = preTestInvocation.invoke();
+		
+		
 		
 		Class<?> clazz = Class.forName(className).getMethod(methodName,parameterTypes).getReturnType();
 				
@@ -195,35 +186,45 @@ public class RestTestRunnerFacade implements TestRunnerFacade{
 		int status = response.getStatus();
 		
 		// Recover Return value from Response
-		if(status < 300 ){
-				logger.info("Response OK : " + status);
-				
-				/*
-				if( ClassUtils.isPrimitiveOrWrapper(objClass))
-					return response.readEntity(objClass);
-				
-				if( objClass == String.class)
-					return (T) response.readEntity(String.class);
-				 */
-				
-				
-				// only use custom objectmapper if we expect our special helper classes
-				if(	objClass == SystemPropertyTempSetter.class    ||
-					objClass == TestRunnerAnnotationHandler.class
-				){
-					String jsonString =  response.readEntity(String.class);
-					T obj = jsonParameterSerializer.toObject(jsonString, objClass);
-					return obj;
-				}
-
-				// Should be Ok if we deal with serializable Objects
+		if(status < 300 ) {
+			logger.info("Response OK : " + status);
+			
+			/*
+			if( ClassUtils.isPrimitiveOrWrapper(objClass))
 				return response.readEntity(objClass);
-
+			
+			if( objClass == String.class)
+				return (T) response.readEntity(String.class);
+			 */
+			
+			
+			// only use custom objectmapper if we expect our special helper classes
+			if(	objClass == SystemPropertyTempSetter.class
+					|| objClass == TestRunnerAnnotationHandler.class ) {
+				String jsonString =  response.readEntity(String.class);
+				T obj = jsonParameterSerializer.toObject(jsonString, objClass);
+				return obj;
+			} else if (ClassUtils.isPrimitiveOrWrapper(objClass)) {
+				return response.readEntity(objClass);
+			} else if (objClass == String.class) {
+				String stringRes = response.readEntity(String.class);
+				
+				@SuppressWarnings("unchecked")
+				T res = (T) stringRes;
+				return res;
+			} else {
+				return readObjectFromJson(response, objClass);
+			}
 		}
 		
 		getExceptionFromResponse(response);
 		
 		return null;
+	}
+	
+	private <T> T readObjectFromJson(Response response, Class<T> expectedType) {
+		String json = response.readEntity(String.class);
+		return jsonParameterSerializer.toObject(json, expectedType);
 	}
 	
 	private void getExceptionFromResponse(Response response) throws Exception{

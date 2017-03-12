@@ -1,5 +1,6 @@
 package ch.inftec.ju.ee.test;
 
+import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.Map;
 
@@ -58,6 +59,14 @@ public class JsonParameterSerializer {
 			return URLEncoder.encode(str, "UTF-8");
 		} catch (Exception ex) {
 			throw new JuRuntimeException("Couldn't encode String: " + str, ex);
+		}
+	}
+	
+	public String toDecodedJsonString(String str) {
+		try {
+			return URLDecoder.decode(str, "UTF-8");
+		} catch (Exception ex) {
+			throw new JuRuntimeException("Couldn't decode String: " + str, ex);
 		}
 	}
 	

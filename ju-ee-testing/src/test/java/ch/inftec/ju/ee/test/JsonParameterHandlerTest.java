@@ -233,4 +233,24 @@ public class JsonParameterHandlerTest {
 		MyTypeWithReadOnly readType = (MyTypeWithReadOnly) values[0];
 		assertThat(readType.val, is("hello"));
 	}
+	
+	@Test
+	public void deserializedValue_getsUnescaped() {
+		String parameterTypes = getParameterTypesJson(MyTypeWithReadOnly.class);
+		
+		MyTypeWithReadOnly myType = new MyTypeWithReadOnly();
+		myType.val = "hello {=} there";
+		
+		String argJson = toJson(myType);
+		
+		JsonParameterHandler handler = new JsonParameterHandler(parameterTypes, argJson);
+		
+		Object[] values = handler.getParameterValues();
+		
+		assertThat(values.length, is(1));
+		assertThat(values[0] instanceof MyTypeWithReadOnly, is(true));
+		
+		MyTypeWithReadOnly readType = (MyTypeWithReadOnly) values[0];
+		assertThat(readType.val, is("hello {=} there"));
+	}
 }

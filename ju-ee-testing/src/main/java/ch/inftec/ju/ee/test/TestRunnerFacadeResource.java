@@ -234,7 +234,7 @@ public class TestRunnerFacadeResource implements TestRunnerFacade {
 				className
 				, methodName
 				, jsonParameterHandler.getParameterTypes()
-				, jsonParameterHandler.getParameterValues());
+				, jsonParameterHandler.getParameterValuesDecoded());
 	}
 	
 	@Override

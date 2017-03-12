@@ -1,5 +1,6 @@
 package ch.inftec.ju.ee.test;
 
+import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.assertThat;
@@ -7,6 +8,8 @@ import static org.junit.Assert.assertThat;
 import org.junit.Assert;
 import org.junit.Test;
 
+import ch.inftec.ju.ee.test.RemoteContainerTestITTester.ComplexParam;
+import ch.inftec.ju.ee.test.RemoteContainerTestITTester.ComplexResult;
 import ch.inftec.ju.testing.db.DataSet;
 
 public class RemoteContainerTestIT extends RemoteContainerTesterTest {
@@ -52,5 +55,35 @@ public class RemoteContainerTestIT extends RemoteContainerTesterTest {
 		return this.callRemoteMethod("getVoid"
 				, null
 				, null);
+	}
+	
+	@Test
+	public void givenComplexParameters_runMethodInEjbContext_succeeds() {
+		ComplexParam complexParam = new ComplexParam();
+		
+		complexParam.longList.add(0L);
+		complexParam.longList.add(1L);
+		
+		complexParam.map.put("key0", "val {/} 0");
+		complexParam.map.put("key1", "val {/} 1");
+		
+		Object resObject = callRemoteMethod("getComplexResult"
+				, new Class<?>[] { Long.class, String.class, ComplexParam.class }
+				, new Object[] { 1L, "foo {/} bar", complexParam });
+		
+		assertThat(resObject, is(instanceOf(ComplexResult.class)));
+		
+		ComplexResult res = (ComplexResult) resObject;
+		
+		assertThat(res.longVal, is(1L));
+		assertThat(res.stringVal, is("foo {/} bar"));
+		
+		assertThat(res.complexParam.longList.size(), is(2));
+		assertThat(res.complexParam.longList.get(0), is(0L));
+		assertThat(res.complexParam.longList.get(1), is(1L));
+		
+		assertThat(res.complexParam.map.size(), is(2));
+		assertThat(res.complexParam.map.get("key0"), is("val {/} 0"));
+		assertThat(res.complexParam.map.get("key1"), is("val {/} 1"));
 	}
 }

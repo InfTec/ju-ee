@@ -1,5 +1,10 @@
 package ch.inftec.ju.ee.test;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import ch.inftec.ju.testing.db.data.entity.TestingEntity;
 import ch.inftec.ju.testing.db.data.repo.TestingEntityRepo;
 
@@ -26,6 +31,28 @@ public class RemoteContainerTestITTester extends RemoteContainerTester {
 	
 	public void getVoid() {
 	}
+	
+	public static class ComplexParam {
+		Map<String, String> map = new HashMap<>();
+		List<Long> longList = new ArrayList<>();
+	}
+	
+	public static class ComplexResult {
+		Long longVal;
+		String stringVal;
+		ComplexParam complexParam;
+	}
+	
+	public ComplexResult getComplexResult(Long longVal, String stringVal, ComplexParam complexParam) {
+		ComplexResult res = new ComplexResult();
+		
+		res.longVal = longVal;
+		res.stringVal = stringVal;
+		res.complexParam = complexParam;
+		
+		return res;
+	}
+	
 //	
 //	public Long getTestingEntityId(String name) {
 //		TestingEntity te = this.testingEntityRepo.getByName(name);

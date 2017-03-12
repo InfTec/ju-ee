@@ -50,6 +50,16 @@ class JsonParameterHandler {
 		}
 	}
 	
+	public Object[] getParameterValuesDecoded() {
+		if (StringUtils.isEmpty(argsJson)) {
+			return new Object[0];
+		} else {
+			String decodedJson = jsonParameterSerializer.toDecodedJsonString(argsJson);
+			Object[] obj = jsonParameterSerializer.toObject(decodedJson, Object[].class);
+			return allignWithTypes(obj);
+		}
+	}
+	
 	private Object[] allignWithTypes(Object[] args) {
 		int length = args == null
 				? 0
